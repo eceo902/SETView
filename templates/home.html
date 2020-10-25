@@ -2,12 +2,18 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div class="container">
-  <div class="jumbotron">
-    <h1>Welcome to TechView</h1>
-    <p>Your clean and personalized source of technology news today</p>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4" style="text-align:center;">Welcome to TechView</h1>
+    <p style="text-align:center;">Your clean and personalized source of technology news today</p>
   </div>
-  <p>This is some text.</p>
-  <p>This is another text.</p>
+</div>
+
+<br>
+<br>
+
+<div>
+  <a class="btn btn-primary btn-lg btn-block" href="{{ url_for('top') }}">Go to Top News Now!</a>
+  <a class="btn btn-secondary btn-lg btn-block" href="{{ url_for('all') }}">Look at all Headlines</a>
 </div>
 {% endblock %}

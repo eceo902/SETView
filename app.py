@@ -15,7 +15,7 @@ def home():
 
 @app.route("/top")
 def top():
-    top_news = newsapi.get_top_headlines()
+    top_news = newsapi.get_top_headlines(category="technology")
 
 
 @app.route("/all")
