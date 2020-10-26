@@ -18,16 +18,16 @@
             <a class="nav-link" href="{{ url_for('top') }}">Trending <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('all') }}">All News</a>
+            <a class="nav-link" href="{{ url_for('all_things', page_number=2) }}">All News</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Interests
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Preferred News</a>
+              <a class="dropdown-item" href="{{ url_for('interest') }}">Preferred News</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Set Interests</a>
+              <a class="dropdown-item" href="{{ url_for('set_preferences') }}">Set Interests</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -35,11 +35,11 @@
               Categories
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{ url_for('cat', category='technology') }}">Technology</a>
+              <a class="dropdown-item" href="{{ url_for('cat', category='Technology') }}">Technology</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{{ url_for('cat', category='entertainment') }}">Entertainment</a>
+              <a class="dropdown-item" href="{{ url_for('cat', category='Entertainment') }}">Entertainment</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{{ url_for('cat', category='sports') }}">Sports</a>
+              <a class="dropdown-item" href="{{ url_for('cat', category='Sports') }}">Sports</a>
             </div>
           </li>
         </ul>

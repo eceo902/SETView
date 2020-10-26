@@ -14,6 +14,6 @@
 
 <div>
   <a class="btn btn-primary btn-lg btn-block" href="{{ url_for('top') }}">Go to Top News Now!</a>
-  <a class="btn btn-secondary btn-lg btn-block" href="{{ url_for('all') }}">Look at all Headlines</a>
+  <a class="btn btn-secondary btn-lg btn-block" href="{{ url_for('all_things', page_number=1) }}">Look at all Headlines</a>
 </div>
 {% endblock %}
