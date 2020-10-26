@@ -19,7 +19,7 @@
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h1 class="display-4" style="text-align:center; font-size:10em;">Trending News</h1>
-    <p style="text-align:center; font-size:2.5em;">Here are the top 50 tech, entertainment, and sports articles today</p>
+    <p style="text-align:center; font-size:2.5em;">Here are the top 50 Sports, Entertainment, and Technology articles today</p>
   </div>
 </div>
 
@@ -33,11 +33,14 @@
     <h5 class="card-title">{{article['title']}}</h5>
     <a href="{{article['url']}}" class="btn btn-primary">Go to Article</a>
     <br>
-    <br>
-    <br>
-    <img src="{{article['urlToImage']}}" style="width:800px; height:auto;">
-    <br>
-    <br>
+    {% if article['urlToImage'] == None %}                       <!--Jinja does not support len() function-->
+    {% else %}
+        <br>
+        <br>
+        <img src="{{article['urlToImage']}}" style="width:800px; height:auto; border-radius:20px;">
+        <br>
+        <br>
+    {% endif %}
     <br>
     <p class="card-text" style="font-size:1.5em;">{{article['description']}}</p>
   </div>

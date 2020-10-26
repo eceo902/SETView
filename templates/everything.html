@@ -20,7 +20,7 @@
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h1 class="display-4" style="text-align:center; font-size:10em;">All News</h1>
-    <p style="text-align:center; font-size:2.5em;">The top {{10*(current_page-1)+1}}-{{10*(current_page)}} tech, entertainment, and sports articles</p>
+    <p style="text-align:center; font-size:2.5em;">The top {{10*(current_page-1)+1}}-{{10*(current_page)}} Sports, Entertainment, and Technology articles</p>
   </div>
 </div>
 
@@ -31,13 +31,13 @@
         <li class="page-item">
           <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
         </li>
-        <li class="page-item active"><a class="page-link" href="{{ url_for('all_things', page_number=1) }}">1</a></li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=2) }}">2</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=3) }}">3</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=4) }}">4</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=5) }}">5</a></li>
         <li class="page-item">
-          <a class="page-link" href="{{ url_for('all_things', page_number=current_page+1) }}">Next</a>
+          <a class="page-link" href="{{ url_for('all_things', page_number=2) }}">Next</a>
         </li>
       </ul>
     </nav>
@@ -48,7 +48,7 @@
           <a class="page-link" href="{{ url_for('all_things', page_number=1) }}" tabindex="-1" aria-disabled="true">Previous</a>
         </li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=1) }}">1</a></li>
-        <li class="page-item active"><a class="page-link" href="{{ url_for('all_things', page_number=2) }}">2</a></li>
+        <li class="page-item active"><a class="page-link" href="#">2</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=3) }}">3</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=4) }}">4</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=5) }}">5</a></li>
@@ -65,7 +65,7 @@
         </li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page-2) }}">{{current_page-2}}</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page-1) }}">{{current_page-1}}</a></li>
-        <li class="page-item active"><a class="page-link" href="{{ url_for('all_things', page_number=current_page) }}">{{current_page}}</a></li>
+        <li class="page-item active"><a class="page-link" href="#">{{current_page}}</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page+1) }}">{{current_page+1}}</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page+2) }}">{{current_page+2}}</a></li>
         <li class="page-item">
@@ -89,7 +89,7 @@
     <br>
     <br>
     <br>
-    <img src="{{article['urlToImage']}}" style="width:800px; height:auto;">
+    <img src="{{article['urlToImage']}}" style="width:800px; height:auto; border-radius:20px;">
     <br>
     <br>
     <br>
@@ -110,12 +110,30 @@
 {% if current_page <= 1 %}
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
-        <li class="page-item active">
+        <li class="page-item">
           <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
         </li>
-        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=1) }}">1</a></li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=2) }}">2</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=3) }}">3</a></li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=4) }}">4</a></li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=5) }}">5</a></li>
+        <li class="page-item">
+          <a class="page-link" href="{{ url_for('all_things', page_number=2) }}">Next</a>
+        </li>
+      </ul>
+    </nav>
+{% elif current_page == 2 %}
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" href="{{ url_for('all_things', page_number=1) }}" tabindex="-1" aria-disabled="true">Previous</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=1) }}">1</a></li>
+        <li class="page-item active"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=3) }}">3</a></li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=4) }}">4</a></li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=5) }}">5</a></li>
         <li class="page-item">
           <a class="page-link" href="{{ url_for('all_things', page_number=current_page+1) }}">Next</a>
         </li>
@@ -124,12 +142,14 @@
 {% else %}
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
-        <li class="page-item active">
+        <li class="page-item">
           <a class="page-link" href="{{ url_for('all_things', page_number=current_page-1) }}" tabindex="-1" aria-disabled="true">Previous</a>
         </li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page-2) }}">{{current_page-2}}</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page-1) }}">{{current_page-1}}</a></li>
-        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page) }}">{{current_page}}</a></li>
+        <li class="page-item active"><a class="page-link" href="#">{{current_page}}</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page+1) }}">{{current_page+1}}</a></li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page+2) }}">{{current_page+2}}</a></li>
         <li class="page-item">
           <a class="page-link" href="{{ url_for('all_things', page_number=current_page+1) }}">Next</a>
         </li>

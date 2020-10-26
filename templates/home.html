@@ -4,8 +4,8 @@
 {% block content %}
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1 class="display-4" style="text-align:center;font-size:12em;">Welcome to ModernView</h1>
-    <p style="text-align:center;font-size:2.5em;">Your clean and personalized source of technology, sports, and entertainment news today</p>
+    <h1 class="display-4" style="text-align:center;font-size:12em;">Welcome to SETView</h1>
+    <p style="text-align:center;font-size:2.5em;">Your clean and personalized source of Sports, Entertainment, and Technology news today</p>
   </div>
 </div>
 
@@ -14,6 +14,10 @@
 
 <div>
   <a class="btn btn-primary btn-lg btn-block" href="{{ url_for('top') }}">Go to Top News Now!</a>
-  <a class="btn btn-secondary btn-lg btn-block" href="{{ url_for('all_things', page_number=1) }}">Look at all Headlines</a>
+  {% if "page" in session %}
+    <a class="btn btn-secondary btn-lg btn-block" href="{{ url_for('all_things', page_number=session['page']) }}">Look at all Headlines</a>
+  {% else %}
+    <a class="btn btn-secondary btn-lg btn-block" href="{{ url_for('all_things', page_number=1) }}">Look at all Headlines</a>
+  {% endif %}
 </div>
 {% endblock %}
