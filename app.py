@@ -1,7 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, request, session, flash
 from key import my_api_key
 from newsapi import NewsApiClient
-from datetime import timedelta
+from datetime import timedelta, date
 
 newsapi = NewsApiClient(api_key=my_api_key)
 
@@ -17,7 +17,7 @@ def home():
 
 @app.route("/top")
 def top():
-    top_news = newsapi.get_top_headlines(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", country="us", page_size=50)
+    top_news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=50, from_param=date.today()-timedelta(days=1), to=date.today())
     if(top_news["status"] != "ok"):
         flash("There was an error!, Try again")
         return render_template("trending.html")
