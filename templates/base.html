@@ -7,7 +7,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="{{ url_for('home') }}">TechView</a>
+      <a class="navbar-brand" href="{{ url_for('home') }}">ModernView</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -30,15 +30,24 @@
               <a class="dropdown-item" href="#">Set Interests</a>
             </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Categories
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{{ url_for('cat', category='technology') }}">Technology</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{{ url_for('cat', category='entertainment') }}">Entertainment</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{{ url_for('cat', category='sports') }}">Sports</a>
+            </div>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" action="{{ url_for('top') }}" method="POST">
           <input class="form-control mr-sm-2" type="search" placeholder="Search by Source" aria-label="Search" name="what_source">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
-        <form class="form-inline my-2 my-lg-0" action="{{ url_for('top') }}" method="POST">
+        <form class="form-inline my-2 my-lg-0" style="margin-left:2.5em;" action="{{ url_for('top') }}" method="POST">
           <input class="form-control mr-sm-2" type="search" placeholder="Search by Topic" aria-label="Search" name="what_topic">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Trending{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}                           <!--If there are messages-->
+            {% for msg in messages %}
+                <div class="jumbotron jumbotron-fluid">
+                  <div class="container">
+                    <h1 class="display-4" style="text-align:center;">There is an error:</h1>
+                    <p style="text-align:center;">{{msg}}</p>
+                  </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}}
+
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4" style="text-align:center; font-size:10em;">Trending News</h1>
+    <p style="text-align:center; font-size:2.5em;">Here are the top 50 tech articles today</p>
+  </div>
+</div>
+
+
+{% for article in articles %}
+<div class="card text-center">
+  <div class="card-header" style="font-size:2em;">
+    {{article['source']['name']}}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{article['title']}}</h5>
+    <a href="{{article['url']}}" class="btn btn-primary">Go to Article</a>
+    <br>
+    <br>
+    <br>
+    <img src="{{article['urlToImage']}}" height="500" width="800">
+    <br>
+    <br>
+    <br>
+    <p class="card-text" style="font-size:1.5em;">{{article['description']}}</p>
+  </div>
+  <div class="card-footer text-muted">
+      {{article['publishedAt']}}
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+{% endfor %}
+
+{% endblock %}
