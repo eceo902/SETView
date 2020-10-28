@@ -1,20 +1,26 @@
 .carousel-control-next{
-    width: 60px;
-    height: 60px;
-    background-color: black;
-}
-
-.carousel-control-next-icon{
-    width: 60px;
-    height: 60px;
-    background-color: black;
+    width: 70px;
+    height: 70px;
+    background-color: deepskyblue;
+    border-radius: 50%;
+    right: 2%;
+    top: calc(50% - 35px);
 }
 
 .carousel-control-prev{
-
+    width: 70px;
+    height: 70px;
+    background-color: deepskyblue;
+    border-radius: 50%;
+    left: 2%;
+    top: calc(50% - 35px);
 }
 
-.carousel-control-prev-icon{
-
+.carousel-indicators li {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
 }
+
+
 

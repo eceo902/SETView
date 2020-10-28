@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for, render_template, request, session, f
 from key import my_api_key
 from newsapi import NewsApiClient
 from datetime import timedelta, date
+import random
 
 newsapi = NewsApiClient(api_key=my_api_key)
 
@@ -10,18 +11,28 @@ app = Flask(__name__)
 app.secret_key = "secret_key"
 
 
-@app.route("/")
+@app.route("/")                         # Homepage
 def home():
-    return render_template("home.html")
+    news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=50, from_param=date.today()-timedelta(days=3), to=date.today())
+    articles = news["articles"]
+
+    rtn = []
+
+    for i in range(9):
+        temp = random.choice(articles)          # stores the random article in a temporary variable
+        rtn += temp                             # adds the random article to the return list
+        articles.remove(temp)                   # removes the random article from the list of articles
+
+    return render_template("home.html", rando_articles=rtn)
 
 
-@app.route("/top")
+@app.route("/top")                      # Trending sports, technology, and entertainment news page
 def top():
     top_news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=50, from_param=date.today()-timedelta(days=1), to=date.today())
-    if(top_news["status"] != "ok"):
+    if(top_news["status"] != "ok"):                                             # Will flash an error if the status is not ok
         flash("There was an error!, Try again")
         return render_template("trending.html")
-    elif(top_news["totalResults"] == 0):
+    elif(top_news["totalResults"] == 0):                                        # Will flash an error if there are no results
         flash("There are no articles right now.  Sorry, try again later!")
         return render_template("trending.html")
     else:
@@ -29,7 +40,7 @@ def top():
         return render_template("trending.html", articles=articles)
 
 
-@app.route("/all/<int:page_number>")
+@app.route("/all/<int:page_number>")    # All technology, sports, and entertainment news
 def all_things(page_number=None):
     all_news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=10, page=page_number)
     session["page"] = page_number
@@ -47,7 +58,7 @@ def all_things(page_number=None):
         return render_template("everything.html", articles=articles, current_page=page_number)
 
 
-@app.route("/<string:category>")
+@app.route("/<string:category>")        # News from either technology, entertainment, or sports category
 def cat(category):
     cat_news = newsapi.get_top_headlines(category=category.lower(), country="us", language="en", page_size=50)
     if (cat_news["status"] != "ok"):
