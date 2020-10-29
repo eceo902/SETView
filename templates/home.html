@@ -4,16 +4,39 @@
 
 
 {% block content %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}                           <!--If there are messages-->
+        {% for msg in messages %}
+            <div class="jumbotron jumbotron-fluid">
+              <div class="container">
+                <h1 class="display-4" style="text-align:center;">There is an error:</h1>
+                <p style="text-align:center;">{{msg}}</p>
+              </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+
+
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='carousel.css') }}">       <!--Has to be linked in the block content-->
 
 <br>
 
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1 class="display-4" style="text-align:center;font-size:7em;">Welcome to SETView</h1>
+    <h1 class="display-4" style="text-align:center;font-size:7em;">
+      <span>Welcome to </span>
+      <span style="color: #5680E9; margin-top: 0; padding-top: 0;">S</span><!--
+      --><span style="color: #84CEEB;">E</span><!--
+      --><span style="color: #8860D0;">T</span><!--
+      --><span>View</span>
+    </h1>
     <p style="text-align:center;font-size:2.5em;">Your clean and personalized source of Sports, Entertainment, and Technology news today</p>
   </div>
 </div>
+
 
 
 
@@ -23,22 +46,22 @@
   <hr class="my-4">
 
   <!--Carousel Wrapper-->
-  <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel" data-interval="3500">
+  <div id="multi-item" class="carousel slide carousel-multi-item" data-ride="carousel" data-interval="3500">
 
-    <a class="carousel-control-prev" href="#multi-item-example" data-slide="prev">
+    <a class="carousel-control-prev" href="#multi-item" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="false"></span>
       <span class="sr-only">Previous</span>
     </a>
-    <a class="carousel-control-next" href="#multi-item-example" role="button" data-slide="next">
+    <a class="carousel-control-next" href="#multi-item" role="button" data-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="false"></span>
       <span class="sr-only">Next</span>
     </a>
 
 
     <ol class="carousel-indicators">
-      <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
-      <li data-target="#multi-item-example" data-slide-to="1"></li>
-      <li data-target="#multi-item-example" data-slide-to="2"></li>
+      <li data-target="#multi-item" data-slide-to="0" class="active"></li>
+      <li data-target="#multi-item" data-slide-to="1"></li>
+      <li data-target="#multi-item" data-slide-to="2"></li>
     </ol>
 
 
@@ -52,39 +75,30 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg"
-                alt="Card image cap">
+                <img class="card-img-top" src="{{rtn[0]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a class="btn btn-primary">Read More</a>
+                <h4 class="card-title" style="height:116px;">{{rtn[0]['title']}}</h4>
+                <a class="btn btn-primary" href="{{rtn[0]['url']}}">Read More</a>
               </div>
             </div>
           </div>
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg"
-                alt="Card image cap">
+                <img class="card-img-top" src="{{rtn[1]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a class="btn btn-primary">Read More</a>
+                <h4 class="card-title" style="height:116px;">{{rtn[1]['title']}}</h4>
+                <a class="btn btn-primary" href="{{rtn[1]['url']}}">Read More</a>
               </div>
             </div>
           </div>
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg"
-                alt="Card image cap">
+                <img class="card-img-top" src="{{rtn[2]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a class="btn btn-primary">Read More</a>
+                <h4 class="card-title" style="height:116px;">{{rtn[2]['title']}}</h4>
+                <a class="btn btn-primary" href="{{rtn[2]['url']}}">Read More</a>
               </div>
             </div>
           </div>
@@ -99,39 +113,30 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg"
-                alt="Card image cap">
+              <img class="card-img-top" src="{{rtn[3]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a class="btn btn-primary">Read More</a>
+                <h4 class="card-title" style="height:116px;">{{rtn[3]['title']}}</h4>
+                <a class="btn btn-primary" href="{{rtn[3]['url']}}">Read More</a>
               </div>
             </div>
           </div>
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(47).jpg"
-                alt="Card image cap">
+              <img class="card-img-top" src="{{rtn[4]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a class="btn btn-primary">Read More</a>
+                <h4 class="card-title" style="height:116px;">{{rtn[4]['title']}}</h4>
+                <a class="btn btn-primary" href="{{rtn[4]['url']}}">Read More</a>
               </div>
             </div>
           </div>
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg"
-                alt="Card image cap">
+              <img class="card-img-top" src="{{rtn[5]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a class="btn btn-primary">Read More</a>
+                <h4 class="card-title" style="height:116px;">{{rtn[5]['title']}}</h4>
+                <a class="btn btn-primary" href="{{rtn[5]['url']}}">Read More</a>
               </div>
             </div>
           </div>
@@ -146,39 +151,30 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(53).jpg"
-                alt="Card image cap">
+              <img class="card-img-top" src="{{rtn[6]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a class="btn btn-primary">Read More</a>
+                <h4 class="card-title" style="height:116px;">{{rtn[6]['title']}}</h4>
+                <a class="btn btn-primary" href="{{rtn[6]['url']}}">Read More</a>
               </div>
             </div>
           </div>
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(45).jpg"
-                alt="Card image cap">
+              <img class="card-img-top" src="{{rtn[7]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a class="btn btn-primary">Read More</a>
+                <h4 class="card-title" style="height:116px;">{{rtn[7]['title']}}</h4>
+                <a class="btn btn-primary" href="{{rtn[7]['url']}}">Read More</a>
               </div>
             </div>
           </div>
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(51).jpg"
-                alt="Card image cap">
+              <img class="card-img-top" src="{{rtn[8]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a class="btn btn-primary">Read More</a>
+                <h4 class="card-title" style="height:116px;">{{rtn[8]['title']}}</h4>
+                <a class="btn btn-primary" href="{{rtn[8]['url']}}">Read More</a>
               </div>
             </div>
           </div>

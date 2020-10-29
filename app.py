@@ -2,7 +2,8 @@ from flask import Flask, redirect, url_for, render_template, request, session, f
 from key import my_api_key
 from newsapi import NewsApiClient
 from datetime import timedelta, date
-import random
+import random                           # to randomize a list of articles for the carousel
+import validators                       # to test if url is valid
 
 newsapi = NewsApiClient(api_key=my_api_key)
 
@@ -13,17 +14,27 @@ app.secret_key = "secret_key"
 
 @app.route("/")                         # Homepage
 def home():
-    news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=50, from_param=date.today()-timedelta(days=3), to=date.today())
+    news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=100, from_param=date.today()-timedelta(days=3), to=date.today())
     articles = news["articles"]
 
     rtn = []
 
     for i in range(9):
         temp = random.choice(articles)          # stores the random article in a temporary variable
-        rtn += temp                             # adds the random article to the return list
+        while temp["urlToImage"] is None:
+            articles.remove(temp)
+            temp = random.choice(articles)
+        while validators.url(temp["urlToImage"]) == False:       # if the url is valid
+            articles.remove(temp)
+            temp = random.choice(articles)
+        rtn.append(temp)                        # adds the random article to the return list
         articles.remove(temp)                   # removes the random article from the list of articles
 
-    return render_template("home.html", rando_articles=rtn)
+    for article in rtn:                         # limiting the length of the title
+        if len(article["title"]) > 75:
+            article["title"] = article["title"][0:article["title"].find(" ", 70)] + "..."       # this will add an ellipsis to the first space it finds starting from the 70th character
+
+    return render_template("home.html", rtn=rtn)
 
 
 @app.route("/top")                      # Trending sports, technology, and entertainment news page
@@ -87,9 +98,49 @@ def interest():
 
 
 
-@app.route("/check", methods=["POST", "GET"])
-def search():
+@app.route("/checktype", methods=["POST", "GET"])
+def try_type():
+    if request.method == "POST":
+        if request.form["what_topic"] is not None and len(request.form["what_topic"]) > 0:
+            return redirect(url_for("topic_searcher", topic=request.form["what_topic"]))
+        else:
+            flash("Invalid search input, try again!")
+            return redirect(url_for("home"))
+    else:
+        return redirect(url_for("home"))
+
+
+@app.route("/<string:topic>")
+def topic_searcher(topic):
+    news_by_topic = newsapi.get_everything(q="(technology OR entertainment OR sports) AND " + topic.lower(), language="en", sort_by="relevancy", page_size=50, from_param=date.today()-timedelta(days=3), to=date.today())
+    if news_by_topic["status"] != "ok":
+        pass
+    elif news_by_topic["totalResults"] == 0:
+        pass
+    else:
+        pass
+
+
+
+
+@app.route("/checksource", methods=["POST", "GET"])
+def try_source():
     pass
+
+
+
+
+
+@app.route("/test")
+def test():
+    news = newsapi.get_everything(q="Prediction",
+                                  qintitle="Prediction", language="en", sort_by="relevancy",
+                                  page_size=100, from_param=date.today() - timedelta(days=3), to=date.today())
+
+    articles = news['articles']
+
+
+    return render_template("test.html", articles=articles)
 
 
 if __name__ == "__main__":

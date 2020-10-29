@@ -15,7 +15,7 @@
         {% endif %}
     {% endwith %}
 
-
+<br>
 
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
@@ -24,9 +24,9 @@
   </div>
 </div>
 
-
+<!--Making page navigator at the top of the page-->
 {% if current_page <= 1 %}
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation">
       <ul class="pagination justify-content-center">
         <li class="page-item">
           <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
@@ -42,7 +42,7 @@
       </ul>
     </nav>
 {% elif current_page == 2 %}
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation">
       <ul class="pagination justify-content-center">
         <li class="page-item">
           <a class="page-link" href="{{ url_for('all_things', page_number=1) }}" tabindex="-1" aria-disabled="true">Previous</a>
@@ -58,12 +58,12 @@
       </ul>
     </nav>
 {% else %}
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation">
       <ul class="pagination justify-content-center">
         <li class="page-item">
           <a class="page-link" href="{{ url_for('all_things', page_number=current_page-1) }}" tabindex="-1" aria-disabled="true">Previous</a>
         </li>
-        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page-2) }}">{{current_page-2}}</a></li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=1) }}">1</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page-1) }}">{{current_page-1}}</a></li>
         <li class="page-item active"><a class="page-link" href="#">{{current_page}}</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page+1) }}">{{current_page+1}}</a></li>
@@ -111,7 +111,7 @@
 
 
 {% if current_page <= 1 %}
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation">
       <ul class="pagination justify-content-center">
         <li class="page-item">
           <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
@@ -127,7 +127,7 @@
       </ul>
     </nav>
 {% elif current_page == 2 %}
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation">
       <ul class="pagination justify-content-center">
         <li class="page-item">
           <a class="page-link" href="{{ url_for('all_things', page_number=1) }}" tabindex="-1" aria-disabled="true">Previous</a>
@@ -143,12 +143,12 @@
       </ul>
     </nav>
 {% else %}
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation">
       <ul class="pagination justify-content-center">
         <li class="page-item">
           <a class="page-link" href="{{ url_for('all_things', page_number=current_page-1) }}" tabindex="-1" aria-disabled="true">Previous</a>
         </li>
-        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page-2) }}">{{current_page-2}}</a></li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=1) }}">1</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page-1) }}">{{current_page-1}}</a></li>
         <li class="page-item active"><a class="page-link" href="#">{{current_page}}</a></li>
         <li class="page-item"><a class="page-link" href="{{ url_for('all_things', page_number=current_page+1) }}">{{current_page+1}}</a></li>
