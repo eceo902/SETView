@@ -16,10 +16,16 @@
     top: calc(50% - 35px);
 }
 
-.carousel-indicators li {
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
+
+.carousel-indicators{
+    top: 2.5%;
+}
+
+.carousel-indicators li{
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background-color: deepskyblue;
 }
 
 
