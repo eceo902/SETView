@@ -26,13 +26,13 @@
 
 
 {% for source in sources %}
-    <h4 style="color: white">{{source['name']}}: {{source['id']}}</h4>
-    <a class="btn btn-primary" href="{{ url_for('source_searcher') }}"
+<!--    <h4 style="color: white">{{source['name']}}: {{source['id']}}</h4>-->
+    <a class="btn btn-primary" href="{{ url_for('source_searcher', source=source['id']) }}">Name:{{source['name']}} &nbsp; ID:{{source['id']}}</a>
+    <br>
+    <br>
 {% endfor %}
 
 
-<br>
-<br>
 <br>
 <br>
 

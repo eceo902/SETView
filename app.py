@@ -133,7 +133,7 @@ def topic_searcher(topic):
 def try_source():
     if request.method == "POST":
         if request.form["what_source"] is not None and len(request.form["what_source"]) > 0:
-            return redirect(url_for("source_searcher", topic=request.form["what_source"]))
+            return redirect(url_for("source_searcher", source=request.form["what_source"]))
         else:
             flash("Invalid search input, try again!")
             return redirect(url_for("source_list"))
@@ -143,7 +143,11 @@ def try_source():
 
 @app.route("/source/<string:source>")
 def source_searcher(source):
-    news_by_source = newsapi.get_everything(q="technology OR entertainment OR sports", language="en", sort_by="relevancy", sources=source.lower(), page_size=100)
+    try:
+        news_by_source = newsapi.get_everything(q="technology OR entertainment OR sports", language="en", sort_by="relevancy", sources=source.lower(), page_size=100)
+    except:
+        flash("There was an error with your search.")
+        return redirect(url_for("source_list"))
     if news_by_source["status"] != "ok":
         flash("There was an error with your search.")
         return redirect(url_for("source_list"))
