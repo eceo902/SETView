@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p>{{check}}</p>
+
+{% for article in articles %}
+    <p>{{article['title']}}</p>
+    <p>{{article['urlToImage']}}</p>
+    <br>
+    <br>
+{% endfor %}
+
+
+
+
+
+{% endblock %}

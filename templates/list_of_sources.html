@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Trending{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}                           <!--If there are messages-->
+            {% for msg in messages %}
+                <div class="jumbotron jumbotron-fluid">
+                  <div class="container">
+                    <h1 class="display-4" style="text-align:center;">There is an error:</h1>
+                    <p style="text-align:center;">{{msg}}</p>
+                  </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+<br>
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4" style="text-align:center; font-size:10em;">Sources</h1>
+    <p style="text-align:center; font-size:2.5em;">Here is a list of sources you can search by</p>
+  </div>
+</div>
+
+
+{% for source in sources %}
+    <h4 style="color: white">{{source['name']}}: {{source['id']}}</h4>
+    <a class="btn btn-primary" href="{{ url_for('source_searcher') }}"
+{% endfor %}
+
+
+<br>
+<br>
+<br>
+<br>
+
+{% endblock %}

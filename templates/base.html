@@ -49,9 +49,12 @@
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" action="{{ url_for('try_source') }}" method="POST">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search by Source" aria-label="Search" name="what_source">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search by Source ID" aria-label="Search" name="what_source">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('source_list') }}" style="color: rgba(0,0,0,0.8);">Source List <span class="sr-only">(current)</span></a>
+          </li>
         <form class="form-inline my-2 my-lg-0" style="margin-left:2.5em;" action="{{ url_for('try_type') }}" method="POST">
           <input class="form-control mr-sm-2" type="search" placeholder="Search by Topic" aria-label="Search" name="what_topic">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

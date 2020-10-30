@@ -14,17 +14,14 @@ app.secret_key = "secret_key"
 
 @app.route("/")                         # Homepage
 def home():
-    news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=100, from_param=date.today()-timedelta(days=3), to=date.today())
+    news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=100, from_param=date.today()-timedelta(days=2), to=date.today())
     articles = news["articles"]
 
     rtn = []
 
     for i in range(9):
         temp = random.choice(articles)          # stores the random article in a temporary variable
-        while temp["urlToImage"] is None:
-            articles.remove(temp)
-            temp = random.choice(articles)
-        while validators.url(temp["urlToImage"]) == False:       # if the url is valid
+        while temp["urlToImage"] is None or not validators.url(temp["urlToImage"]):            # if there is not a url or if the url is invalid
             articles.remove(temp)
             temp = random.choice(articles)
         rtn.append(temp)                        # adds the random article to the return list
@@ -39,15 +36,18 @@ def home():
 
 @app.route("/top")                      # Trending sports, technology, and entertainment news page
 def top():
-    top_news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=50, from_param=date.today()-timedelta(days=1), to=date.today())
-    if(top_news["status"] != "ok"):                                             # Will flash an error if the status is not ok
+    top_technology = newsapi.get_top_headlines(category="technology", country="us", page_size=34)
+    top_entertainment = newsapi.get_top_headlines(category="entertainment", country="us", page_size=33)
+    top_sports = newsapi.get_top_headlines(category="sports", country="us", page_size=33)
+    if(top_technology["status"] != "ok" or top_entertainment["status"] != "ok" or top_sports["status"] != "ok"):        # Will flash an error if the status is not ok
         flash("There was an error!, Try again")
-        return render_template("trending.html")
-    elif(top_news["totalResults"] == 0):                                        # Will flash an error if there are no results
+        return redirect(url_for("home"))
+    elif(top_technology["totalResults"] == 0 and top_entertainment["totalResults"] == 0 and top_sports["totalResults"] == 0):   # Will flash an error if there are no results
         flash("There are no articles right now.  Sorry, try again later!")
-        return render_template("trending.html")
+        return redirect(url_for("home"))
     else:
-        articles = top_news["articles"]
+        articles = top_technology["articles"] + top_entertainment["articles"] + top_sports["articles"]
+        random.shuffle(articles)
         return render_template("trending.html", articles=articles)
 
 
@@ -69,7 +69,7 @@ def all_things(page_number=None):
         return render_template("everything.html", articles=articles, current_page=page_number)
 
 
-@app.route("/<string:category>")        # News from either technology, entertainment, or sports category
+@app.route("/category/<string:category>")        # News from either technology, entertainment, or sports category
 def cat(category):
     cat_news = newsapi.get_top_headlines(category=category.lower(), country="us", language="en", page_size=50)
     if (cat_news["status"] != "ok"):
@@ -98,7 +98,10 @@ def interest():
 
 
 
-@app.route("/checktype", methods=["POST", "GET"])
+
+
+
+@app.route("/checktype", methods=["POST", "GET"])                                       # checking to see if the input search for type was valid
 def try_type():
     if request.method == "POST":
         if request.form["what_topic"] is not None and len(request.form["what_topic"]) > 0:
@@ -110,22 +113,60 @@ def try_type():
         return redirect(url_for("home"))
 
 
-@app.route("/<string:topic>")
+@app.route("/topic/<string:topic>")                                                     # route to render the search result
 def topic_searcher(topic):
-    news_by_topic = newsapi.get_everything(q="(technology OR entertainment OR sports) AND " + topic.lower(), language="en", sort_by="relevancy", page_size=50, from_param=date.today()-timedelta(days=3), to=date.today())
+    news_by_topic = newsapi.get_everything(q="(technology OR entertainment OR sports) AND " + topic.lower(), language="en", sort_by="relevancy", page_size=100)
     if news_by_topic["status"] != "ok":
-        pass
+        flash("There was an error with your search.")
+        return redirect(url_for("home"))
     elif news_by_topic["totalResults"] == 0:
-        pass
+        flash("Sorry, there are no results for this search, try something else!")
+        return redirect(url_for("home"))
     else:
-        pass
+        articles = news_by_topic["articles"]
+        return render_template("topic.html", articles=articles)
 
 
 
 
 @app.route("/checksource", methods=["POST", "GET"])
 def try_source():
-    pass
+    if request.method == "POST":
+        if request.form["what_source"] is not None and len(request.form["what_source"]) > 0:
+            return redirect(url_for("source_searcher", topic=request.form["what_source"]))
+        else:
+            flash("Invalid search input, try again!")
+            return redirect(url_for("source_list"))
+    else:
+        return redirect(url_for("home"))
+
+
+@app.route("/source/<string:source>")
+def source_searcher(source):
+    news_by_source = newsapi.get_everything(q="technology OR entertainment OR sports", language="en", sort_by="relevancy", sources=source.lower(), page_size=100)
+    if news_by_source["status"] != "ok":
+        flash("There was an error with your search.")
+        return redirect(url_for("source_list"))
+    elif news_by_source["totalResults"] == 0:
+        flash("Sorry, there are no results for this search, try something else!")
+        return redirect(url_for("source_list"))
+    else:
+        articles = news_by_source["articles"]
+        return render_template("source.html", articles=articles)
+
+
+@app.route("/sourcelist")
+def source_list():
+    technology_sources = newsapi.get_sources(category="technology", language="en", country="us")
+    entertainment_sources = newsapi.get_sources(category="entertainment", language="en", country="us")
+    sports_sources = newsapi.get_sources(category="sports", language="en", country="us")
+
+    combined = technology_sources["sources"] + entertainment_sources["sources"] + sports_sources["sources"]
+    random.shuffle(combined)
+    # converted = [combined[i]["name"] for i in range(len(combined))]               # code to put combined into string form
+    # rtn = ", ".join(converted)
+
+    return render_template("list_of_sources.html", sources=combined)
 
 
 
@@ -133,14 +174,14 @@ def try_source():
 
 @app.route("/test")
 def test():
-    news = newsapi.get_everything(q="Prediction",
-                                  qintitle="Prediction", language="en", sort_by="relevancy",
+    news = newsapi.get_everything(q="tnf",
+                                  qintitle="tnf", language="en", sort_by="relevancy",
                                   page_size=100, from_param=date.today() - timedelta(days=3), to=date.today())
 
     articles = news['articles']
 
 
-    return render_template("test.html", articles=articles)
+    return render_template("test.html", articles=articles, check=type(validators.url(articles[0]["urlToImage"])))
 
 
 if __name__ == "__main__":
