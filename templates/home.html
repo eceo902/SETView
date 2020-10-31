@@ -5,6 +5,9 @@
 
 {% block content %}
 
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='carousel.css') }}">       <!--Has to be linked in the block content-->
+
+
 {% with messages = get_flashed_messages() %}
     {% if messages %}                           <!--If there are messages-->
         {% for msg in messages %}
@@ -19,8 +22,6 @@
 {% endwith %}
 
 
-
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='carousel.css') }}">       <!--Has to be linked in the block content-->
 
 <br>
 
@@ -52,13 +53,13 @@
       <span class="carousel-control-prev-icon" aria-hidden="false"></span>
       <span class="sr-only">Previous</span>
     </a>
-    <a class="carousel-control-next" href="#multi-item-example" role="button" data-slide="next">
+    <a class="carousel-control-next" href="#multi-item-example" data-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="false"></span>
       <span class="sr-only">Next</span>
     </a>
 
 
-    <ol class="carousel-indicators">
+    <ol class="carousel-indicators"  style="pointer-events: none">
       <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
       <li data-target="#multi-item-example" data-slide-to="1"></li>
       <li data-target="#multi-item-example" data-slide-to="2"></li>
@@ -75,7 +76,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[0]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit:cover;">
+              <img class="card-img-top" src="{{rtn[0]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit:cover;">
               <div class="card-body">
                 <h4 class="card-title" style="height:116px;">{{rtn[0]['title']}}</h4>
               </div>
@@ -85,7 +86,7 @@
 
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[1]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit:cover;">
+              <img class="card-img-top" src="{{rtn[1]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit:cover;">
               <div class="card-body">
                 <h4 class="card-title" style="height:116px;">{{rtn[1]['title']}}</h4>
               </div>
@@ -95,7 +96,7 @@
 
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[2]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[2]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
                 <h4 class="card-title" style="height:116px;">{{rtn[2]['title']}}</h4>
               </div>
@@ -113,7 +114,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[3]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[3]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
                 <h4 class="card-title" style="height:116px;">{{rtn[3]['title']}}</h4>
               </div>
@@ -123,7 +124,7 @@
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[4]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[4]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
                 <h4 class="card-title" style="height:116px;">{{rtn[4]['title']}}</h4>
               </div>
@@ -133,7 +134,7 @@
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[5]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[5]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
                 <h4 class="card-title" style="height:116px;">{{rtn[5]['title']}}</h4>
               </div>
@@ -151,7 +152,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[6]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[6]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
                 <h4 class="card-title" style="height:116px;">{{rtn[6]['title']}}</h4>
               </div>
@@ -161,7 +162,7 @@
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[7]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[7]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
                 <h4 class="card-title" style="height:116px;">{{rtn[7]['title']}}</h4>
               </div>
@@ -171,7 +172,7 @@
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[8]['urlToImage']}}" alt="Card image cap" style="width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[8]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
               <div class="card-body">
                 <h4 class="card-title" style="height:116px;">{{rtn[8]['title']}}</h4>
               </div>

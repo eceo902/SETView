@@ -39,15 +39,15 @@ def top():
     top_technology = newsapi.get_top_headlines(category="technology", country="us", page_size=34)
     top_entertainment = newsapi.get_top_headlines(category="entertainment", country="us", page_size=33)
     top_sports = newsapi.get_top_headlines(category="sports", country="us", page_size=33)
-    if(top_technology["status"] != "ok" or top_entertainment["status"] != "ok" or top_sports["status"] != "ok"):        # Will flash an error if the status is not ok
+    if(top_technology["status"] != "ok" or top_entertainment["status"] != "ok" or top_sports["status"] != "ok"):        # will flash an error if the status is not ok
         flash("There was an error!, Try again")
         return redirect(url_for("home"))
     elif(top_technology["totalResults"] == 0 and top_entertainment["totalResults"] == 0 and top_sports["totalResults"] == 0):   # Will flash an error if there are no results
         flash("There are no articles right now.  Sorry, try again later!")
         return redirect(url_for("home"))
     else:
-        articles = top_technology["articles"] + top_entertainment["articles"] + top_sports["articles"]
-        random.shuffle(articles)
+        articles = top_technology["articles"] + top_entertainment["articles"] + top_sports["articles"]                  # adding the different categories together
+        random.shuffle(articles)                                                                                        # randomizing the order of the categories
         return render_template("trending.html", articles=articles)
 
 
@@ -165,10 +165,7 @@ def source_list():
     entertainment_sources = newsapi.get_sources(category="entertainment", language="en", country="us")
     sports_sources = newsapi.get_sources(category="sports", language="en", country="us")
 
-    combined = technology_sources["sources"] + entertainment_sources["sources"] + sports_sources["sources"]
-    random.shuffle(combined)
-    # converted = [combined[i]["name"] for i in range(len(combined))]               # code to put combined into string form
-    # rtn = ", ".join(converted)
+    combined = technology_sources["sources"] + entertainment_sources["sources"] + sports_sources["sources"]     # combining the different sources of news
 
     return render_template("list_of_sources.html", sources=combined)
 
