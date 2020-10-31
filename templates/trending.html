@@ -42,8 +42,10 @@
         <br>
         <br>
     {% endif %}
-    <br>
-    <p class="card-text" style="font-size:1.5em;">{{article['description']}}</p>
+    {% if article['description'] == None %}
+    {% else %}
+        <p class="card-text" style="font-size:1.5em;">{{article['description']}}</p>
+    {% endif %}
   </div>
   <div class="card-footer text-muted">
       {{article['publishedAt'][0:article['publishedAt'].find("T")]}}

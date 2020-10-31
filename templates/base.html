@@ -32,7 +32,11 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{{ url_for('interest') }}">Preferred News</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{{ url_for('set_preferences') }}">Set Interests</a>
+              {% if "page_interest" in session %}
+                <a class="dropdown-item" href="{{ url_for('set_preferences', page_number=session['page_interest']) }}">Set Interests</a>
+              {% else %}
+                <a class="dropdown-item" href="{{ url_for('set_preferences', page_number=1) }}">Set Interests</a>
+              {% endif %}
             </div>
           </li>
           <li class="nav-item dropdown">

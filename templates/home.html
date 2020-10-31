@@ -59,7 +59,7 @@
     </a>
 
 
-    <ol class="carousel-indicators"  style="pointer-events: none">
+    <ol class="carousel-indicators"  style="pointer-events: none">                        <!--This was interfering with the href buttons below-->
       <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
       <li data-target="#multi-item-example" data-slide-to="1"></li>
       <li data-target="#multi-item-example" data-slide-to="2"></li>
@@ -90,7 +90,7 @@
               <div class="card-body">
                 <h4 class="card-title" style="height:116px;">{{rtn[1]['title']}}</h4>
               </div>
-              <a class="btn btn-primary" href="{{rtn[1]['url']}}" style="display: block;">Read More</a>
+              <a class="btn btn-primary" href="{{rtn[1]['url']}}">Read More</a>
             </div>
           </div>
 
@@ -100,7 +100,7 @@
               <div class="card-body">
                 <h4 class="card-title" style="height:116px;">{{rtn[2]['title']}}</h4>
               </div>
-              <a class="btn btn-primary" href="{{rtn[2]['url']}}" style="display: block;">Read More</a>
+              <a class="btn btn-primary" href="{{rtn[2]['url']}}">Read More</a>
             </div>
           </div>
         </div>

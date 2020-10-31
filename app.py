@@ -53,14 +53,14 @@ def top():
 
 @app.route("/all/<int:page_number>")    # All technology, sports, and entertainment news
 def all_things(page_number=None):
-    all_news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=10, page=page_number)
+    all_news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=20, page=page_number)
     session["page"] = page_number
     if (all_news["status"] != "ok"):
         flash("There was an error!, Try again")
-        return render_template("everything.html", current_page=1)
+        return redirect(url_for("home"))
     elif (all_news["totalResults"] == 0):
         flash("There are no articles there right now.  Sorry, try again later!")
-        return render_template("everything.html", current_page=1)
+        return redirect(url_for("home"))
     elif(page_number == None):
         articles = all_news["articles"]
         return render_template("everything.html", articles=articles, current_page=1)
@@ -84,17 +84,39 @@ def cat(category):
 
 
 
+
 @app.route("/set", methods=["POST", "GET"])
 def set_preferences():
     if request.method == "POST":
-        pass
+        session["preferences"] = request.form[""]
+        return redirect(url_for("interest"))
     else:
-        return render_template("")
+        if "preferences" in session:
+            return render_template("list_of_preferences.html")
+        else:
+            return render_template("list_of_preferences.html")
 
 
 @app.route("/interests")
-def interest():
-    pass
+def interest(page_number=None):
+    if "preferences" in session:
+        preferences = " OR ".join(session["preferences"])
+        interest_news = newsapi.get_everything(q=preferences.lower(), qintitle=preferences.lower(), language="en", sort_by="relevancy", page_size=20, page=page_number)
+        if (interest_news["status"] != "ok"):
+            flash("There was an error!, Try again")
+            return redirect(url_for("home"))
+        elif (interest_news["totalResults"] == 0):
+            flash("There are no articles there right now.  Sorry, try again later!")
+            return redirect(url_for("home"))
+        elif (page_number == None):
+            articles = interest_news["articles"]
+            return render_template("interest_page.html", articles=articles, current_page=1)
+        else:
+            articles = interest_news["articles"]
+            return render_template("interest_page.html", articles=articles, current_page=page_number)
+    else:
+        flash("You need to set preferences first!")
+        return redirect(url_for("set_preferences"))
 
 
 
