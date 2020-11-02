@@ -2,17 +2,17 @@ from flask import Flask, redirect, url_for, render_template, request, session, f
 from key import my_api_key
 from newsapi import NewsApiClient
 from datetime import timedelta, date
-import random                           # to randomize a list of articles for the carousel
-import validators                       # to test if url is valid
+import random                                   # to randomize a list of articles for the carousel
+import validators                               # to test if url is valid
 
 newsapi = NewsApiClient(api_key=my_api_key)
 
 
 app = Flask(__name__)
-app.secret_key = "secret_key"
+app.secret_key = "secret_key"                   # need to make a secret key to make session work
 
 
-@app.route("/")                         # Homepage
+@app.route("/")                                 # Homepage
 def home():
     news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=100, from_param=date.today()-timedelta(days=2), to=date.today())
     articles = news["articles"]
@@ -28,21 +28,22 @@ def home():
         articles.remove(temp)                   # removes the random article from the list of articles
 
     for article in rtn:                         # limiting the length of the title
-        if len(article["title"]) > 75:
-            article["title"] = article["title"][0:article["title"].find(" ", 70)] + "..."       # this will add an ellipsis to the first space it finds starting from the 70th character
+        if len(article["title"]) > 90:
+            article["title"] = article["title"][0:article["title"].find(" ", 85)] + "..."       # this will add an ellipsis to the first space it finds starting from the 70th character
 
     return render_template("home.html", rtn=rtn)
 
 
-@app.route("/top")                      # Trending sports, technology, and entertainment news page
+
+@app.route("/top")                              # Trending sports, technology, and entertainment news page
 def top():
     top_technology = newsapi.get_top_headlines(category="technology", country="us", page_size=34)
     top_entertainment = newsapi.get_top_headlines(category="entertainment", country="us", page_size=33)
     top_sports = newsapi.get_top_headlines(category="sports", country="us", page_size=33)
-    if(top_technology["status"] != "ok" or top_entertainment["status"] != "ok" or top_sports["status"] != "ok"):        # will flash an error if the status is not ok
+    if top_technology["status"] != "ok" or top_entertainment["status"] != "ok" or top_sports["status"] != "ok":         # will flash an error if the status is not ok
         flash("There was an error!, Try again")
         return redirect(url_for("home"))
-    elif(top_technology["totalResults"] == 0 and top_entertainment["totalResults"] == 0 and top_sports["totalResults"] == 0):   # Will flash an error if there are no results
+    elif top_technology["totalResults"] == 0 and top_entertainment["totalResults"] == 0 and top_sports["totalResults"] == 0:   # Will flash an error if there are no results
         flash("There are no articles right now.  Sorry, try again later!")
         return redirect(url_for("home"))
     else:
@@ -51,17 +52,17 @@ def top():
         return render_template("trending.html", articles=articles)
 
 
-@app.route("/all/<int:page_number>")    # All technology, sports, and entertainment news
+@app.route("/all/<int:page_number>")            # All technology, sports, and entertainment news
 def all_things(page_number=None):
     all_news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=20, page=page_number)
     session["page"] = page_number
-    if (all_news["status"] != "ok"):
+    if all_news["status"] != "ok":
         flash("There was an error!, Try again")
         return redirect(url_for("home"))
-    elif (all_news["totalResults"] == 0):
+    elif all_news["totalResults"] == 0:
         flash("There are no articles there right now.  Sorry, try again later!")
         return redirect(url_for("home"))
-    elif(page_number == None):
+    elif page_number == None:
         articles = all_news["articles"]
         return render_template("everything.html", articles=articles, current_page=1)
     else:
@@ -72,10 +73,10 @@ def all_things(page_number=None):
 @app.route("/category/<string:category>")        # News from either technology, entertainment, or sports category
 def cat(category):
     cat_news = newsapi.get_top_headlines(category=category.lower(), country="us", language="en", page_size=50)
-    if (cat_news["status"] != "ok"):
+    if cat_news["status"] != "ok":
         flash("There was an error!, Try again")
         return render_template("categories.html")
-    elif (cat_news["totalResults"] == 0):
+    elif cat_news["totalResults"] == 0:
         flash("There are no articles right now.  Sorry, try again later!")
         return render_template("categories.html")
     else:
@@ -85,10 +86,12 @@ def cat(category):
 
 
 
+
 @app.route("/set", methods=["POST", "GET"])
 def set_preferences():
     if request.method == "POST":
         session["preferences"] = request.form[""]
+        flash("Your interests have been saved!")
         return redirect(url_for("interest"))
     else:
         if "preferences" in session:
@@ -97,18 +100,19 @@ def set_preferences():
             return render_template("list_of_preferences.html")
 
 
-@app.route("/interests")
+@app.route("/interests/<int:page_number>")
 def interest(page_number=None):
     if "preferences" in session:
         preferences = " OR ".join(session["preferences"])
         interest_news = newsapi.get_everything(q=preferences.lower(), qintitle=preferences.lower(), language="en", sort_by="relevancy", page_size=20, page=page_number)
-        if (interest_news["status"] != "ok"):
+        session["page_interest"] = page_number
+        if interest_news["status"] != "ok":
             flash("There was an error!, Try again")
             return redirect(url_for("home"))
-        elif (interest_news["totalResults"] == 0):
+        elif interest_news["totalResults"] == 0:
             flash("There are no articles there right now.  Sorry, try again later!")
             return redirect(url_for("home"))
-        elif (page_number == None):
+        elif page_number is None:
             articles = interest_news["articles"]
             return render_template("interest_page.html", articles=articles, current_page=1)
         else:
