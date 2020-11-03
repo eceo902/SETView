@@ -28,5 +28,16 @@
     background-color: deepskyblue;
 }
 
+.card-img-top{
+    max-width: 348px;
+    height: 233px;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+.card-title{
+    height: 116px;
+}
+
 
 

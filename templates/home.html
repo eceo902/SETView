@@ -14,7 +14,7 @@
         {% for msg in messages %}
             <div class="jumbotron jumbotron-fluid">
               <div class="container">
-                <h1 class="display-4" style="text-align:center;">There is an error:</h1>
+                <h1 class="display-4">There is an error:</h1>
                 <p style="text-align:center;">{{msg}}</p>
               </div>
             </div>
@@ -28,14 +28,22 @@
 
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1 class="display-4" style="text-align:center;font-size:7em;">
-      <span>Welcome to </span>
-      <span style="color: #5680E9; margin-top: 0; padding-top: 0;">S</span><!--
-      --><span style="color: #84CEEB;">E</span><!--
-      --><span style="color: #8860D0;">T</span><!--
+    <h1 class="display-4" style="font-size:7em;">
+      <span>Welcome to </span><!--
+      --><span><a href="{{ url_for('cat', category='Sports') }}" style="color: #5680E9;">S</a></span><!--
+      --><span><a href="{{ url_for('cat', category='Entertainment') }}" style="color: #84CEEB;">E</a></span><!--
+      --><span><a href="{{ url_for('cat', category='Technology') }}" style="color: #8860D0;">T</a></span><!--
       --><span>View</span>
     </h1>
-    <p style="text-align:center;font-size:2.5em;">Your clean and personalized source of Sports, Entertainment, and Technology news today</p>
+    <p style="text-align:center;font-size:2.5em;">
+      <span>Your clean and personalized source of </span><!--
+      --><span><a href="{{ url_for('cat', category='Sports') }}" style="color: #5680E9;">Sports</a></span><!--
+      --><span>, </span><!--
+      --><span><a href="{{ url_for('cat', category='Entertainment') }}" style="color: #84CEEB;">Entertainment</a></span><!--
+      --><span>, and </span><!--
+      --><span><a href="{{ url_for('cat', category='Technology') }}" style="color: #8860D0;">Technology</a></span><!--
+      --><span> news today</span>
+    </p>
   </div>
 </div>
 
@@ -77,9 +85,9 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[0]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit:cover;">
+              <img class="card-img-top" src="{{rtn[0]['urlToImage']}}" alt="Card image cap">
               <div class="card-body">
-                <h4 class="card-title" style="height:116px;">{{rtn[0]['title']}}</h4>
+                <h4 class="card-title">{{rtn[0]['title']}}</h4>
               </div>
               <a class="btn btn-primary" href="{{rtn[0]['url']}}">Read More</a>
             </div>
@@ -87,9 +95,9 @@
 
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[1]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit:cover;">
+              <img class="card-img-top" src="{{rtn[1]['urlToImage']}}" alt="Card image cap">
               <div class="card-body">
-                <h4 class="card-title" style="height:116px;">{{rtn[1]['title']}}</h4>
+                <h4 class="card-title">{{rtn[1]['title']}}</h4>
               </div>
               <a class="btn btn-primary" href="{{rtn[1]['url']}}">Read More</a>
             </div>
@@ -97,9 +105,9 @@
 
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[2]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[2]['urlToImage']}}" alt="Card image cap">
               <div class="card-body">
-                <h4 class="card-title" style="height:116px;">{{rtn[2]['title']}}</h4>
+                <h4 class="card-title">{{rtn[2]['title']}}</h4>
               </div>
               <a class="btn btn-primary" href="{{rtn[2]['url']}}">Read More</a>
             </div>
@@ -115,9 +123,9 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[3]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[3]['urlToImage']}}" alt="Card image cap">
               <div class="card-body">
-                <h4 class="card-title" style="height:116px;">{{rtn[3]['title']}}</h4>
+                <h4 class="card-title">{{rtn[3]['title']}}</h4>
               </div>
               <a class="btn btn-primary" href="{{rtn[3]['url']}}">Read More</a>
             </div>
@@ -125,9 +133,9 @@
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[4]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[4]['urlToImage']}}" alt="Card image cap">
               <div class="card-body">
-                <h4 class="card-title" style="height:116px;">{{rtn[4]['title']}}</h4>
+                <h4 class="card-title">{{rtn[4]['title']}}</h4>
               </div>
               <a class="btn btn-primary" href="{{rtn[4]['url']}}">Read More</a>
             </div>
@@ -135,9 +143,9 @@
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[5]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[5]['urlToImage']}}" alt="Card image cap">
               <div class="card-body">
-                <h4 class="card-title" style="height:116px;">{{rtn[5]['title']}}</h4>
+                <h4 class="card-title">{{rtn[5]['title']}}</h4>
               </div>
               <a class="btn btn-primary" href="{{rtn[5]['url']}}">Read More</a>
             </div>
@@ -153,9 +161,9 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[6]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[6]['urlToImage']}}" alt="Card image cap">
               <div class="card-body">
-                <h4 class="card-title" style="height:116px;">{{rtn[6]['title']}}</h4>
+                <h4 class="card-title">{{rtn[6]['title']}}</h4>
               </div>
               <a class="btn btn-primary" href="{{rtn[6]['url']}}">Read More</a>
             </div>
@@ -163,9 +171,9 @@
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[7]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[7]['urlToImage']}}" alt="Card image cap">
               <div class="card-body">
-                <h4 class="card-title" style="height:116px;">{{rtn[7]['title']}}</h4>
+                <h4 class="card-title">{{rtn[7]['title']}}</h4>
               </div>
               <a class="btn btn-primary" href="{{rtn[7]['url']}}">Read More</a>
             </div>
@@ -173,9 +181,9 @@
 
           <div class="col-md-4 clearfix d-none d-md-block">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[8]['urlToImage']}}" alt="Card image cap" style="max-width:348px; height:233px; overflow:hidden; object-fit: cover;">
+              <img class="card-img-top" src="{{rtn[8]['urlToImage']}}" alt="Card image cap">
               <div class="card-body">
-                <h4 class="card-title" style="height:116px;">{{rtn[8]['title']}}</h4>
+                <h4 class="card-title">{{rtn[8]['title']}}</h4>
               </div>
               <a class="btn btn-primary" href="{{rtn[8]['url']}}">Read More</a>
             </div>
