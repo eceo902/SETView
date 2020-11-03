@@ -4,6 +4,7 @@
 {% block content %}
     {% with messages = get_flashed_messages() %}
         {% if messages %}                           <!--If there are messages-->
+            <br>
             {% for msg in messages %}
                 <div class="jumbotron jumbotron-fluid">
                   <div class="container">
@@ -27,9 +28,7 @@
 
 {% for source in sources %}
 <!--    <h4 style="color: white">{{source['name']}}: {{source['id']}}</h4>-->
-    <a class="btn btn-primary" href="{{ url_for('source_searcher', source=source['id']) }}">Name:{{source['name']}} &nbsp; ID:{{source['id']}}</a>
-    <br>
-    <br>
+    <a class="btn btn-primary" href="{{ url_for('source_searcher', source=source['id']) }}" style="margin-bottom: 1.5em;">Name:{{source['name']}} &nbsp; ID:{{source['id']}}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 {% endfor %}
 
 

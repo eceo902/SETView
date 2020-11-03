@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request, session, flash
 from key import my_api_key
+from possible_preferences import technology_preferences, entertainment_preferences, sports_preferences
 from newsapi import NewsApiClient
 from datetime import timedelta, date
 import random                                   # to randomize a list of articles for the carousel
@@ -8,9 +9,14 @@ import validators                               # to test if url is valid
 newsapi = NewsApiClient(api_key=my_api_key)
 
 
-app = Flask(__name__)
+app = Flask(__name__)                           # creating the Flask App
 app.secret_key = "secret_key"                   # need to make a secret key to make session work
+app.permanent_session_lifetime = timedelta(days=7)      # the session lasts for a week
 
+
+@app.before_request                             # this will run before anything else
+def make_session_permanent():
+    session.permanent = True                    # activates the session as being permanent
 
 @app.route("/")                                 # Homepage
 def home():
@@ -35,15 +41,15 @@ def home():
 
 
 
-@app.route("/top")                              # Trending sports, technology, and entertainment news page
+@app.route("/top")                              # trending sports, technology, and entertainment news page
 def top():
-    top_technology = newsapi.get_top_headlines(category="technology", country="us", page_size=34)
-    top_entertainment = newsapi.get_top_headlines(category="entertainment", country="us", page_size=33)
-    top_sports = newsapi.get_top_headlines(category="sports", country="us", page_size=33)
+    top_technology = newsapi.get_top_headlines(category="technology", country="us", page_size=34)                       # calling the api for tech news
+    top_entertainment = newsapi.get_top_headlines(category="entertainment", country="us", page_size=33)                 # calling the api for entertainment news
+    top_sports = newsapi.get_top_headlines(category="sports", country="us", page_size=33)                               # calling the api for sports news
     if top_technology["status"] != "ok" or top_entertainment["status"] != "ok" or top_sports["status"] != "ok":         # will flash an error if the status is not ok
         flash("There was an error!, Try again")
         return redirect(url_for("home"))
-    elif top_technology["totalResults"] == 0 and top_entertainment["totalResults"] == 0 and top_sports["totalResults"] == 0:   # Will flash an error if there are no results
+    elif top_technology["totalResults"] == 0 and top_entertainment["totalResults"] == 0 and top_sports["totalResults"] == 0:   # will flash an error if there are no results
         flash("There are no articles right now.  Sorry, try again later!")
         return redirect(url_for("home"))
     else:
@@ -52,17 +58,17 @@ def top():
         return render_template("trending.html", articles=articles)
 
 
-@app.route("/all/<int:page_number>")            # All technology, sports, and entertainment news
+@app.route("/all/<int:page_number>")            # all technology, sports, and entertainment news
 def all_things(page_number=None):
     all_news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=20, page=page_number)
-    session["page"] = page_number
+    session["page"] = page_number               # saves the page_number into a "page" input in the session
     if all_news["status"] != "ok":
         flash("There was an error!, Try again")
         return redirect(url_for("home"))
     elif all_news["totalResults"] == 0:
         flash("There are no articles there right now.  Sorry, try again later!")
         return redirect(url_for("home"))
-    elif page_number == None:
+    elif page_number == None:                   # if there is no page number saved
         articles = all_news["articles"]
         return render_template("everything.html", articles=articles, current_page=1)
     else:
@@ -87,6 +93,7 @@ def cat(category):
 
 
 
+
 @app.route("/set", methods=["POST", "GET"])
 def set_preferences():
     if request.method == "POST":
@@ -95,9 +102,9 @@ def set_preferences():
         return redirect(url_for("interest"))
     else:
         if "preferences" in session:
-            return render_template("list_of_preferences.html")
+            return render_template("list_of_preferences.html", default=session["preferences"], technology_preferences=technology_preferences, entertainment_preferences=entertainment_preferences, sports_preferences=sports_preferences)
         else:
-            return render_template("list_of_preferences.html")
+            return render_template("list_of_preferences.html", technology_preferences=technology_preferences, entertainment_preferences=entertainment_preferences, sports_preferences=sports_preferences)
 
 
 @app.route("/interests/<int:page_number>")
@@ -155,7 +162,8 @@ def topic_searcher(topic):
 
 
 
-@app.route("/checksource", methods=["POST", "GET"])
+
+@app.route("/checksource", methods=["POST", "GET"])                                     # checking if the input for the search is valid
 def try_source():
     if request.method == "POST":
         if request.form["what_source"] is not None and len(request.form["what_source"]) > 0:
@@ -187,9 +195,9 @@ def source_searcher(source):
 
 @app.route("/sourcelist")
 def source_list():
-    technology_sources = newsapi.get_sources(category="technology", language="en", country="us")
-    entertainment_sources = newsapi.get_sources(category="entertainment", language="en", country="us")
-    sports_sources = newsapi.get_sources(category="sports", language="en", country="us")
+    technology_sources = newsapi.get_sources(category="technology", language="en", country="us")                # gets the news sources that deal with technology
+    entertainment_sources = newsapi.get_sources(category="entertainment", language="en", country="us")          # gets the news sources that deal with entertainment
+    sports_sources = newsapi.get_sources(category="sports", language="en", country="us")                        # gets the news sources that deal with sports
 
     combined = technology_sources["sources"] + entertainment_sources["sources"] + sports_sources["sources"]     # combining the different sources of news
 
@@ -209,6 +217,7 @@ def test():
 
 
     return render_template("test.html", articles=articles, check=type(validators.url(articles[0]["urlToImage"])))
+
 
 
 if __name__ == "__main__":
