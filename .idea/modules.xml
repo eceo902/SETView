@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../ModernView/.idea/ModernView.iml" filepath="$PROJECT_DIR$/../ModernView/.idea/ModernView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SETView.iml" filepath="$PROJECT_DIR$/.idea/SETView.iml" />
     </modules>
   </component>
 </project>
