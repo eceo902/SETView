@@ -10,3 +10,9 @@ body{
 .display-4{
     text-align: center;
 }
+
+.img-render{
+    width: 60%;
+    height: auto;
+    border-radius:20px;
+}

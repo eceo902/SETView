@@ -159,7 +159,7 @@ def topic_searcher(topic):
         return redirect(url_for("home"))
     else:
         articles = news_by_topic["articles"]
-        return render_template("topic.html", articles=articles, )
+        return render_template("topic.html", articles=articles, topic=topic)
 
 
 

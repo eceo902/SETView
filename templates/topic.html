@@ -21,7 +21,7 @@
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h1 class="display-4" style="text-align:center; font-size:10em;">News by Topic</h1>
-    <p style="text-align:center; font-size:2.5em;">Your search results for {{}}:</p>
+    <p style="text-align:center; font-size:2.5em;">Your search results for {{topic}}:</p>
   </div>
 </div>
 
@@ -39,7 +39,7 @@
     {% else %}
         <br>
         <br>
-        <img src="{{article['urlToImage']}}" style="width:800px; height:auto; border-radius:20px;">
+        <img class="img-render" src="{{article['urlToImage']}}">
         <br>
         <br>
     {% endif %}
