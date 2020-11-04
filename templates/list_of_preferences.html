@@ -2,19 +2,23 @@
 {% block title %}List of Preferences{% endblock %}
 
 {% block content %}
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}                           <!--If there are messages-->
-            <br>
-            {% for msg in messages %}
-                <div class="jumbotron jumbotron-fluid">
-                  <div class="container">
-                    <h1 class="display-4" style="text-align:center;">There is an error:</h1>
-                    <p style="text-align:center;">{{msg}}</p>
-                  </div>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='checkbox.css') }}">
+
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}                           <!--If there are messages-->
+        <br>
+        {% for msg in messages %}
+            <div class="jumbotron jumbotron-fluid">
+              <div class="container">
+                <h1 class="display-4" style="text-align:center;">There is an error:</h1>
+                <p style="text-align:center;">{{msg}}</p>
+              </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 
 <br>
 
@@ -27,7 +31,23 @@
 
 
 <form action="{{ url_for('set_preferences') }}" method="POST">
+    {% if "preferences" in session %}                           <!--Make checkboxes with default values-->
 
+
+
+
+
+    {% else %}                                                  <!--Make checkboxes without default values-->
+
+
+
+
+    {% endif %}
+
+
+
+
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 </form>
 
 

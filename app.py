@@ -14,9 +14,14 @@ app.secret_key = "secret_key"                   # need to make a secret key to m
 app.permanent_session_lifetime = timedelta(days=7)      # the session lasts for a week
 
 
-@app.before_request                             # this will run before anything else
+@app.before_request                             # this will run before any request
 def make_session_permanent():
     session.permanent = True                    # activates the session as being permanent
+
+@app.before_first_request                       # activates only before the first request
+def set_initial_page():
+    session["page"] = 1
+    session["page_interest"] = 1
 
 @app.route("/")                                 # Homepage
 def home():
@@ -97,14 +102,11 @@ def cat(category):
 @app.route("/set", methods=["POST", "GET"])
 def set_preferences():
     if request.method == "POST":
-        session["preferences"] = request.form[""]
+        session["preferences"] = request.form["list"]
         flash("Your interests have been saved!")
         return redirect(url_for("interest"))
     else:
-        if "preferences" in session:
-            return render_template("list_of_preferences.html", default=session["preferences"], technology_preferences=technology_preferences, entertainment_preferences=entertainment_preferences, sports_preferences=sports_preferences)
-        else:
-            return render_template("list_of_preferences.html", technology_preferences=technology_preferences, entertainment_preferences=entertainment_preferences, sports_preferences=sports_preferences)
+        return render_template("list_of_preferences.html", technology_preferences=technology_preferences, entertainment_preferences=entertainment_preferences, sports_preferences=sports_preferences)
 
 
 @app.route("/interests/<int:page_number>")
@@ -157,7 +159,7 @@ def topic_searcher(topic):
         return redirect(url_for("home"))
     else:
         articles = news_by_topic["articles"]
-        return render_template("topic.html", articles=articles)
+        return render_template("topic.html", articles=articles, )
 
 
 

@@ -2,15 +2,17 @@
 
 {% block content %}
 
-<p>{{check}}</p>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='checkbox.css') }}">
 
-{% for article in articles %}
-    <p>{{article['title']}}</p>
-    <p>{{article['urlToImage']}}</p>
-    <br>
-    <br>
+
+{% for i in range(3) %}
+
+<div class="boxes boxes-inline" style="display: inline-block">
+  <input type="checkbox" id="box-{{i}}">
+  <label for="box-{{i}}">Sustainable typewriter cronut</label>
+</div>
+
 {% endfor %}
-
 
 
 
