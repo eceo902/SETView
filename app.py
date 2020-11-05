@@ -1,7 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, request, session, flash
 from key import my_api_key
 from possible_preferences import technology_preferences, entertainment_preferences, sports_preferences
-from newsapi import NewsApiClient
+from newsapi import NewsApiClient               # newsapi object that works with the api
 from datetime import timedelta, date
 import random                                   # to randomize a list of articles for the carousel
 import validators                               # to test if url is valid
@@ -72,7 +72,7 @@ def all_things(page_number=None):
         return redirect(url_for("home"))
     elif all_news["totalResults"] == 0:
         flash("There are no articles there right now.  Sorry, try again later!")
-        return redirect(url_for("home"))
+        return redirect(url_for("all_things", page_number=session["page"]-1))
     elif page_number == None:                   # if there is no page number saved
         articles = all_news["articles"]
         return render_template("everything.html", articles=articles, current_page=1)
@@ -102,16 +102,21 @@ def cat(category):
 @app.route("/set", methods=["POST", "GET"])
 def set_preferences():
     if request.method == "POST":
-        session["preferences"] = request.form["list"]
-        flash("Your interests have been saved!")
-        return redirect(url_for("interest"))
+        try:
+            session["preferences"] = request.form.getlist("list")           # getting the list of checked values for the checkboxes
+            if len(request.form.getlist("list")) > 0:
+                flash("Your interests have been saved!")
+            return redirect(url_for("interest", page_number=1))
+        except:
+            flash("Please select some preferences")
+            return redirect(url_for("set_preferences"))
     else:
         return render_template("list_of_preferences.html", technology_preferences=technology_preferences, entertainment_preferences=entertainment_preferences, sports_preferences=sports_preferences)
 
 
 @app.route("/interests/<int:page_number>")
 def interest(page_number=None):
-    if "preferences" in session:
+    if "preferences" in session and len(session["preferences"]) > 0:
         preferences = " OR ".join(session["preferences"])
         interest_news = newsapi.get_everything(q=preferences.lower(), qintitle=preferences.lower(), language="en", sort_by="relevancy", page_size=20, page=page_number)
         session["page_interest"] = page_number
@@ -140,7 +145,7 @@ def interest(page_number=None):
 def try_type():
     if request.method == "POST":
         if request.form["what_topic"] is not None and len(request.form["what_topic"]) > 0:
-            return redirect(url_for("topic_searcher", topic=request.form["what_topic"]))
+            return redirect(url_for("topic_searcher", topic=request.form["what_topic"], page_number=1))
         else:
             flash("Invalid search input, try again!")
             return redirect(url_for("home"))
@@ -148,9 +153,14 @@ def try_type():
         return redirect(url_for("home"))
 
 
-@app.route("/topic/<string:topic>")                                                     # route to render the search result
-def topic_searcher(topic):
-    news_by_topic = newsapi.get_everything(q="(technology OR entertainment OR sports) AND " + topic.lower(), language="en", sort_by="relevancy", page_size=100)
+@app.route("/topic/<string:topic>/<int:page_number>")                                                     # route to render the search result
+def topic_searcher(topic, page_number=1):
+    try:
+        news_by_topic = newsapi.get_everything(q="(technology OR entertainment OR sports) AND " + topic.lower(), language="en", sort_by="relevancy", page_size=20, page=page_number)
+    except:
+        flash("There was an error with your search.")
+        return redirect(url_for("home"))
+        return redirect(url_for("home"))
     if news_by_topic["status"] != "ok":
         flash("There was an error with your search.")
         return redirect(url_for("home"))
@@ -159,7 +169,8 @@ def topic_searcher(topic):
         return redirect(url_for("home"))
     else:
         articles = news_by_topic["articles"]
-        return render_template("topic.html", articles=articles, topic=topic)
+        return render_template("topic.html", articles=articles, topic=topic, current_page=page_number)
+
 
 
 
@@ -168,31 +179,31 @@ def topic_searcher(topic):
 @app.route("/checksource", methods=["POST", "GET"])                                     # checking if the input for the search is valid
 def try_source():
     if request.method == "POST":
-        if request.form["what_source"] is not None and len(request.form["what_source"]) > 0:
-            return redirect(url_for("source_searcher", source=request.form["what_source"]))
+        if request.form["what_source"] is not None and len(request.form["what_source"]) > 0:        # if there was actual text that was searched
+            return redirect(url_for("source_searcher", source=request.form["what_source"], page_number=1))
         else:
-            flash("Invalid search input, try again!")
+            flash("Invalid search input, try these sources!")
             return redirect(url_for("source_list"))
     else:
         return redirect(url_for("home"))
 
 
-@app.route("/source/<string:source>")
-def source_searcher(source):
+@app.route("/source/<string:source>/<int:page_number>")
+def source_searcher(source, page_number=1):
     try:
-        news_by_source = newsapi.get_everything(q="technology OR entertainment OR sports", language="en", sort_by="relevancy", sources=source.lower(), page_size=100)
+        news_by_source = newsapi.get_everything(q="technology OR entertainment OR sports", language="en", sort_by="relevancy", sources=source.lower(), page_size=20, page=page_number)
     except:
-        flash("There was an error with your search.")
+        flash("There was an error with your search.  Try these!")
         return redirect(url_for("source_list"))
     if news_by_source["status"] != "ok":
-        flash("There was an error with your search.")
+        flash("There was an error with your search.  Try these!")
         return redirect(url_for("source_list"))
     elif news_by_source["totalResults"] == 0:
-        flash("Sorry, there are no results for this search, try something else!")
+        flash("Sorry, there are no results for this search, try these!")
         return redirect(url_for("source_list"))
     else:
         articles = news_by_source["articles"]
-        return render_template("source.html", articles=articles)
+        return render_template("source.html", articles=articles, source=source, current_page=page_number)
 
 
 @app.route("/sourcelist")

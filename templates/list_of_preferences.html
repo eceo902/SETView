@@ -24,31 +24,133 @@
 
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1 class="display-4" style="text-align:center; font-size:10em;">Preferences</h1>
+    <h2 class="display-4" style="text-align:center; font-size:10em;">Preferences</h2>
     <p style="text-align:center; font-size:2.5em;">Select the news you are interested in</p>
   </div>
 </div>
 
 
+
+{% if "preferences" in session %}                           <!--Make checkboxes with default values-->
+
+
 <form action="{{ url_for('set_preferences') }}" method="POST">
-    {% if "preferences" in session %}                           <!--Make checkboxes with default values-->
 
 
+    <h1>Technology</h1>
+
+    {% for i in range(technology_preferences|length) %}
+        {% if technology_preferences[i] in session['preferences'] %}
+            <span class="boxes boxes-inline" style="display: inline-block">
+                <input type="checkbox" id="1box-{{i}}" name="list" value="{{technology_preferences[i]}}" checked>
+                <label for="1box-{{i}}">{{technology_preferences[i]}}</label>
+            </span>
+        {% else %}
+            <span class="boxes boxes-inline" style="display: inline-block">
+                <input type="checkbox" id="1box-{{i}}" name="list" value="{{technology_preferences[i]}}">
+                <label for="1box-{{i}}">{{technology_preferences[i]}}</label>
+            </span>
+        {% endif %}
+    {% endfor %}
+
+    <br>
+    <br>
+
+    <h1>Entertainment</h1>
+
+    {% for i in range(entertainment_preferences|length) %}
+        {% if entertainment_preferences[i] in session['preferences'] %}
+            <span class="boxes boxes-inline" style="display: inline-block">
+                <input type="checkbox" id="2box-{{i}}" name="list" value="{{entertainment_preferences[i]}}" checked>
+                <label for="2box-{{i}}">{{entertainment_preferences[i]}}</label>
+            </span>
+        {% else %}
+            <span class="boxes boxes-inline" style="display: inline-block">
+                <input type="checkbox" id="2box-{{i}}" name="list" value="{{entertainment_preferences[i]}}">
+                <label for="2box-{{i}}">{{entertainment_preferences[i]}}</label>
+            </span>
+        {% endif %}
+    {% endfor %}
+
+    <br>
+    <br>
+
+    <h1>Sports</h1>
+
+    {% for i in range(sports_preferences|length) %}
+        {% if sports_preferences[i] in session['preferences'] %}
+            <span class="boxes boxes-inline" style="display: inline-block">
+                <input type="checkbox" id="3box-{{i}}" name="list" value="{{sports_preferences[i]}}" checked>
+                <label for="3box-{{i}}">{{sports_preferences[i]}}</label>
+            </span>
+        {% else %}
+            <span class="boxes boxes-inline" style="display: inline-block">
+                <input type="checkbox" id="3box-{{i}}" name="list" value="{{sports_preferences[i]}}">
+                <label for="3box-{{i}}">{{sports_preferences[i]}}</label>
+            </span>
+        {% endif %}
+    {% endfor %}
+
+    <br>
+    <br>
 
 
-
-    {% else %}                                                  <!--Make checkboxes without default values-->
-
-
-
-
-    {% endif %}
-
-
-
-
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
 </form>
+
+
+
+{% else %}                                                  <!--Make checkboxes without default values-->
+
+<form action="{{ url_for('set_preferences') }}" method="POST">
+
+
+
+    <h1>Technology</h1>
+
+    {% for i in range(technology_preferences|length) %}
+        <span class="boxes boxes-inline" style="display: inline-block">
+            <input type="checkbox" id="1box-{{i}}" name="list" value="{{technology_preferences[i]}}">
+            <label for="1box-{{i}}">{{technology_preferences[i]}}</label>
+        </span>
+    {% endfor %}
+
+    <br>
+    <br>
+
+    <h1>Entertainment</h1>
+
+    {% for i in range(entertainment_preferences|length) %}
+        <span class="boxes boxes-inline" style="display: inline-block">
+            <input type="checkbox" id="2box-{{i}}" name="list" value="{{entertainment_preferences[i]}}">
+            <label for="2box-{{i}}">{{entertainment_preferences[i]}}</label>
+        </span>
+    {% endfor %}
+
+    <br>
+    <br>
+
+    <h1>Sports</h1>
+
+    {% for i in range(sports_preferences|length) %}
+        <span class="boxes boxes-inline" style="display: inline-block">
+            <input type="checkbox" id="3box-{{i}}" name="list" value="{{sports_preferences[i]}}">
+            <label for="3box-{{i}}">{{sports_preferences[i]}}</label>
+        </span>
+    {% endfor %}
+
+    <br>
+    <br>
+
+
+    <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+</form>
+
+
+{% endif %}
+
+
+
 
 
 <br>

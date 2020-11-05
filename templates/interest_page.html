@@ -2,13 +2,14 @@
 {% block title %}Interests{% endblock %}
 
 {% block content %}
+
     {% with messages = get_flashed_messages() %}
         {% if messages %}                           <!--If there are messages-->
             <br>
             {% for msg in messages %}
                 <div class="jumbotron jumbotron-fluid">
                   <div class="container">
-                    <h1 class="display-4" style="text-align:center;">There is an error:</h1>
+                    <h1 class="display-4" style="text-align:center;">Thanks:</h1>
                     <p style="text-align:center;">{{msg}}</p>
                   </div>
                 </div>

@@ -26,10 +26,11 @@
 </div>
 
 
-{% for source in sources %}
-<!--    <h4 style="color: white">{{source['name']}}: {{source['id']}}</h4>-->
-    <a class="btn btn-primary" href="{{ url_for('source_searcher', source=source['id']) }}" style="margin-bottom: 1.5em;">Name:{{source['name']}} &nbsp; ID:{{source['id']}}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-{% endfor %}
+<div style="text-align: center;">
+    {% for source in sources %}
+        <a class="btn btn-primary" href="{{ url_for('source_searcher', source=source['id'], page_number=1) }}" style="margin-bottom: 1.5em; text-align: center; display: inline-block;">Name: {{source['name']}} &nbsp; ID: {{source['id']}}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    {% endfor %}
+</div>
 
 
 <br>
