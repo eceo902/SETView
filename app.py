@@ -118,7 +118,7 @@ def set_preferences():
 def interest(page_number=None):
     if "preferences" in session and len(session["preferences"]) > 0:
         preferences = " OR ".join(session["preferences"])
-        interest_news = newsapi.get_everything(q=preferences.lower(), qintitle=preferences.lower(), language="en", sort_by="relevancy", page_size=20, page=page_number)
+        interest_news = newsapi.get_everything(q=preferences.lower(), qintitle=preferences.lower(), language="en", page_size=20, page=page_number)
         session["page_interest"] = page_number
         if interest_news["status"] != "ok":
             session.pop("_flashes", None)                                   # removing the previous flashes
@@ -216,7 +216,6 @@ def source_list():
     combined = technology_sources["sources"] + entertainment_sources["sources"] + sports_sources["sources"]     # combining the different sources of news
 
     return render_template("list_of_sources.html", sources=combined)
-
 
 
 
