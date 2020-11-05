@@ -121,9 +121,11 @@ def interest(page_number=None):
         interest_news = newsapi.get_everything(q=preferences.lower(), qintitle=preferences.lower(), language="en", sort_by="relevancy", page_size=20, page=page_number)
         session["page_interest"] = page_number
         if interest_news["status"] != "ok":
+            session.pop("_flashes", None)                                   # removing the previous flashes
             flash("There was an error!, Try again")
             return redirect(url_for("home"))
         elif interest_news["totalResults"] == 0:
+            session.pop("_flashes", None)
             flash("There are no articles there right now.  Sorry, try again later!")
             return redirect(url_for("home"))
         elif page_number is None:
@@ -159,7 +161,6 @@ def topic_searcher(topic, page_number=1):
         news_by_topic = newsapi.get_everything(q="(technology OR entertainment OR sports) AND " + topic.lower(), language="en", sort_by="relevancy", page_size=20, page=page_number)
     except:
         flash("There was an error with your search.")
-        return redirect(url_for("home"))
         return redirect(url_for("home"))
     if news_by_topic["status"] != "ok":
         flash("There was an error with your search.")
@@ -220,16 +221,9 @@ def source_list():
 
 
 
-@app.route("/test")
-def test():
-    news = newsapi.get_everything(q="tnf",
-                                  qintitle="tnf", language="en", sort_by="relevancy",
-                                  page_size=100, from_param=date.today() - timedelta(days=3), to=date.today())
-
-    articles = news['articles']
-
-
-    return render_template("test.html", articles=articles, check=type(validators.url(articles[0]["urlToImage"])))
+@app.route("/eseeyave")
+def creator():
+    return render_template("about.html")
 
 
 

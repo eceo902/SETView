@@ -1,0 +1,143 @@
+:root {
+  --unit: 1vmin;
+  --sky: hsl(200, 40%, 88%);
+  --night: hsl(210, 40%, 15%);
+  --fence--one: hsl(35, 40%, 40%);
+  --fence--two: hsl(35, 40%, 20%);
+  --fence--three: hsl(35, 40%, 60%);
+  --paper: hsl(0, 0%, 99%);
+  --band: hsla(190, 30%, 50%, 0.75);
+  --eye: hsl(0, 0%, 10%);
+  --pupil: hsl(0, 0%, 100%);
+  --ink: hsl(0, 0%, 80%);
+  --brand: hsl(0, 40%, 80%);
+}
+
+/*html {*/
+/*  font-size: var(--unit);*/
+/*}*/
+
+body {
+  --fence: repeating-linear-gradient(90deg, transparent 0 4%, var(--fence--two) 4% 8%, var(--fence--one) 8% 96%, var(--fence--two) 92% 96%, transparent 96% 100%) 0 70vh / 5em 30vh repeat-x;
+  --fence-brace--one: linear-gradient(var(--fence--three), var(--fence--three)) 0 75vh / 100vw 2em no-repeat;
+  --fence-brace--two: linear-gradient(var(--fence--three), var(--fence--three)) 0 95vh / 100vw 2em no-repeat;
+  margin: 0;
+  padding: 0;
+  background:
+    var(--fence),
+    var(--fence-brace--one),
+    var(--fence-brace--two);
+  background-color: var(--sky);
+  animation: slide 4s infinite linear, time 60s infinite linear;
+}
+
+body:before {
+  --star--one: radial-gradient(var(--sky) 50%, transparent 50%) 10vw 10vh / 1em 1em;
+  --star--two: radial-gradient(var(--sky) 50%, transparent 50%) 80vw 20vh / 1em 1em;
+  --star--three: radial-gradient(var(--sky) 50%, transparent 50%) 40vw 50vh / 1em 1em;
+  --star--four: radial-gradient(var(--sky) 50%, transparent 50%) 60vw 36vh / 1em 1em;
+  --star--five: radial-gradient(var(--sky) 50%, transparent 50%) 24vw 42vh / 1em 1em;
+  content: '';
+  background:
+    var(--star--one),
+    var(--star--two),
+    var(--star--three),
+    var(--star--four),
+    var(--star--five)
+  ;
+  background-repeat: no-repeat;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  animation: glimmer 60s infinite linear, twinkle 60s infinite linear;
+  opacity: 0;
+}
+
+body:after {
+  --body--main: linear-gradient(var(--paper), var(--paper)) 2em 0 / 6em 30em;
+  --tie: linear-gradient(var(--band), var(--band)) 1.5em 14.5em / 7em 1em;
+  --eye--left: radial-gradient(var(--eye) 50%, transparent 50%) 0 7em / 3em 3em;
+  --pupil--left: radial-gradient(var(--pupil) 50%, transparent 50%) 0.5em 7.5em / 1em 1em;
+  --eye--right: radial-gradient(var(--eye) 50%, transparent 50%) 7em 7em / 3em 3em;
+  --pupil--right: radial-gradient(var(--pupil) 50%, transparent 50%) 7.5em 7.5em / 1em 1em;
+  --mouth: radial-gradient(var(--eye) 50%, transparent 50%) 4em 9em / 2em 2em;
+  --headline: linear-gradient(var(--ink), var(--ink)) 3em 5em / 1.25em 21em;
+  --image: linear-gradient(var(--ink), var(--ink)) 5.5em 20em / 2.5em 9em;
+  --column--one: repeating-linear-gradient(90deg, var(--ink) 0 10%, transparent 10% 20%) 5.5em 1em / 2.5em 8.5em;
+  --column--two: repeating-linear-gradient(90deg, var(--ink) 0 10%, transparent 10% 20%) 5.5em 10.5em / 2.5em 8.5em;
+  --stamp: linear-gradient(var(--brand), var(--brand)) 3em 1em / 1.75em 3em;
+  --barcode: repeating-linear-gradient(var(--ink) 0 5%, transparent 5% 10%) 3em 26.5em / 1.8em 2.5em;
+  content: '';
+  height: 30em;
+  width: 10em;
+  background:
+    var(--pupil--left),
+    var(--eye--left),
+    var(--pupil--right),
+    var(--eye--right),
+    var(--mouth),
+    var(--tie),
+    var(--stamp),
+    var(--headline),
+    var(--image),
+    var(--column--one),
+    var(--column--two),
+    var(--barcode),
+    var(--body--main)
+    ;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -100%) rotate(0deg);
+  animation: throw 1.5s infinite linear;
+}
+
+@keyframes throw {
+  to {
+    transform: translate(-50%, -100%) rotate(360deg);
+  }
+}
+
+@keyframes time {
+  50% {
+    background-color: var(--night);
+  }
+}
+
+@keyframes slide {
+  from {
+    background-position: 0 70vh, 0 75vh, 0 95vh;
+  }
+  to {
+    background-position: -100vw 70vh, 0 75vh, 0 95vh;
+  }
+}
+
+@keyframes twinkle {
+  from {
+    background-position:
+    130vw 10vh,
+    200vw 20vh,
+    160vw 50vh,
+    180vw 36vh,
+    144vw 42vh;
+  }
+  to {
+    background-position:
+    -90vw 10vh,
+    -20vw 20vh,
+    -60vw 50vh,
+    -40vw 36vh,
+    -76vw 42vh;
+  }
+}
+
+@keyframes glimmer {
+  0%, 40%, 60%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
