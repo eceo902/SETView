@@ -61,7 +61,7 @@
             <a class="nav-link" href="{{ url_for('creator') }}" style="margin-left: 0.75em;">About<span class="sr-only">(current)</span></a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0" action="{{ url_for('try_type') }}" method="POST">
+        <form class="form-inline my-2 my-lg-0" method="POST">
             <div class="nav-item dropdown" id="keep-open">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: rgba(0,0,0,0.8);">
                   Filter Search
@@ -84,8 +84,8 @@
                 </div>
             </div>
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="what">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction="{{ url_for('try_type') }}" formmethod="POST">By Topic</button>
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction="{{ url_for('try_source') }}" formmethod="POST">By Source</button>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction="{{ url_for('try_type') }}" formmethod="POST" style="color: #007bff; border-color: #007bff; margin-right: 0.35em;">By Topic</button>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction="{{ url_for('try_source') }}" formmethod="POST" style="color: #007bff; border-color: #007bff;">By Source</button>
         </form>
         <li class="nav-item active">
             <a class="nav-link" href="{{ url_for('source_list') }}" style="color: rgba(0,0,0,0.8);">Source List<span class="sr-only">(current)</span></a>

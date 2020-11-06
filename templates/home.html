@@ -28,7 +28,7 @@
 
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h2 class="display-3" style="text-align: center; font-size:7em;">
+    <h2 class="display-3" style="text-align: center; font-size:7.5em;">
       <span>Welcome to </span><!--
       --><span><a href="{{ url_for('cat', category='Sports') }}" style="color: #1C3BFE;">S</a></span><!--
       --><span><a href="{{ url_for('cat', category='Entertainment') }}" style="color: #1C7FFE;">E</a></span><!--
@@ -85,7 +85,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card mb-2">
-              <img class="card-img-top" src="{{rtn[0]['urlToImage']}}" alt="">
+              <img class="card-img-top" src="{{rtn[0]['urlToImage']}}" alt="" style="text-align: center;">
               <div class="card-body">
                 <h4 class="card-title" style="text-overflow: ellipsis; overflow: hidden;">{{rtn[0]['title']}}</h4>
               </div>
@@ -213,9 +213,9 @@
 <div>
   <a class="btn btn-primary btn-lg btn-block" href="{{ url_for('top') }}">Go to Top News Now!</a>
   {% if "page" in session %}
-    <a class="btn btn-secondary btn-lg btn-block" href="{{ url_for('all_things', page_number=session['page']) }}">Look at all Headlines</a>
+    <a class="btn btn-secondary btn-lg btn-block" href="{{ url_for('all_things', page_number=session['page']) }}" style="background-color: #6272F7;">Look at all Headlines</a>
   {% else %}
-    <a class="btn btn-secondary btn-lg btn-block" href="{{ url_for('all_things', page_number=1) }}">Look at all Headlines</a>
+    <a class="btn btn-secondary btn-lg btn-block" href="{{ url_for('all_things', page_number=1) }}" style="background-color: #6272F7;">Look at all Headlines</a>
   {% endif %}
 </div>
 

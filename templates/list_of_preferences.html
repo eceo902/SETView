@@ -24,15 +24,14 @@
 
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h2 class="display-4" style="text-align:center; font-size:10em;">Preferences</h2>
-    <p style="text-align:center; font-size:2.5em;">Select the news you are interested in</p>
+    <h2 class="display-4" style="text-align:center; font-size:7.5em;">Preferences</h2>
+    <p style="text-align:center; font-size:2em;">Select the news you are interested in</p>
   </div>
 </div>
 
 
 
 {% if "preferences" in session %}                           <!--Make checkboxes with default values-->
-
 
 <form action="{{ url_for('set_preferences') }}" method="POST">
 
@@ -58,6 +57,7 @@
     <br>
     <br>
 
+
     <h1>Entertainment</h1>
 
     <div style="text-align: center">
@@ -78,6 +78,7 @@
 
     <br>
     <br>
+
 
     <h1>Sports</h1>
 
@@ -105,8 +106,8 @@
 </form>
 
 
-
 {% else %}                                                  <!--Make checkboxes without default values-->
+
 
 <form action="{{ url_for('set_preferences') }}" method="POST">
 

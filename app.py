@@ -22,7 +22,7 @@ def make_session_permanent():
 def set_initial_page():
     session["page"] = 1
     session["page_interest"] = 1
-    session["categories"] = None
+    session["categories"] = None                                                                # sets session["categories"] to None
 
 @app.route("/")                                                                                 # Homepage
 def home():
@@ -141,27 +141,18 @@ def interest(page_number=1):
 @app.route("/checktype", methods=["POST", "GET"])                                               # checking to see if the input search for type was valid
 def try_type():
     if request.method == "POST":
-        try:
-            request.form[""]
-            topic = request.form["what_topic"]
-            if topic is not None and len(topic) > 0:
-                session["categories"] = request.form.getlist("categories")
-                return redirect(url_for("topic_searcher", topic=topic, page_number=1))
-            else:
-                flash("Invalid search input, try again!")
-                return redirect(url_for("home"))
-        except:
-            source = request.form["what_source"]
-            if source is not None and len(source) > 0:                                          # if there was actual text that was searched
-                return redirect(url_for("source_searcher", source=source, page_number=1))
-            else:
-                flash("Invalid search input, try these sources!")
-                return redirect(url_for("source_list"))
+        topic = request.form["what"]
+        if topic is not None and len(topic) > 0:
+            session["categories"] = request.form.getlist("categories")
+            return redirect(url_for("topic_searcher", topic=topic, page_number=1))
+        else:
+            flash("Invalid search input, try again!")
+            return redirect(url_for("home"))
     else:
         return redirect(url_for("home"))
 
 
-@app.route("/topic/<string:topic>/<int:page_number>")                              # route to render the search result
+@app.route("/topic/<string:topic>/<int:page_number>")                                           # route to render the search result
 def topic_searcher(topic, page_number=1):
     if session["categories"] is None or len(session["categories"]) == 0:
         try:
@@ -190,11 +181,15 @@ def topic_searcher(topic, page_number=1):
 
 
 
+
+
 @app.route("/checksource", methods=["POST", "GET"])                                             # checking if the input for the search is valid
 def try_source():
     if request.method == "POST":
-        if request.form["what_source"] is not None and len(request.form["what_source"]) > 0:    # if there was actual text that was searched
-            return redirect(url_for("source_searcher", source=request.form["what_source"], page_number=1))
+        source = request.form["what"]
+        if source is not None and len(source) > 0:                                              # if there was actual text that was searched
+            session["categories"] = request.form.getlist("categories")
+            return redirect(url_for("source_searcher", source=source, page_number=1))
         else:
             flash("Invalid search input, try these sources!")
             return redirect(url_for("source_list"))
@@ -204,11 +199,19 @@ def try_source():
 
 @app.route("/source/<string:source>/<int:page_number>")
 def source_searcher(source, page_number=1):
-    try:
-        news_by_source = newsapi.get_everything(q="technology OR entertainment OR sports", language="en", sort_by="relevancy", sources=source.lower(), page_size=20, page=page_number)
-    except:
-        flash("There was an error with your search.  Try these!")
-        return redirect(url_for("source_list"))
+    if session["categories"] is None or len(session["categories"]) == 0:
+        try:
+            news_by_source = newsapi.get_everything(q="technology OR entertainment OR sports", language="en", sort_by="relevancy", sources=source.lower(), page_size=20, page=page_number)
+        except:
+            flash("There was an error with your search.  Try these!")
+            return redirect(url_for("source_list"))
+    else:
+        try:
+            narrow_search = " OR ".join(session["categories"])
+            news_by_source = newsapi.get_everything(q=narrow_search, language="en", sort_by="relevancy", sources=source.lower(), page_size=20, page=page_number)
+        except:
+            flash("There was an error with your search.  Try these!")
+            return redirect(url_for("source_list"))
     if news_by_source["status"] != "ok":
         flash("There was an error with your search.  Try these!")
         return redirect(url_for("source_list"))
@@ -237,13 +240,6 @@ def source_list():
 def creator():
     return render_template("about.html")
 
-@app.route("/test")
-def test():
-    return render_template("test.html")
-
-@app.route("/test2")
-def test2():
-    return render_template("test2.html")
 
 
 
