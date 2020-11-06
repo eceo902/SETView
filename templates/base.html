@@ -8,7 +8,7 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-xl navbar-light bg-light">
       <a class="navbar-brand" href="{{ url_for('home') }}">
           <span style="color: #1C3BFE;">S</span><!--
           --><span style="color: #1C7FFE;">E</span><!--
@@ -66,9 +66,9 @@
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
           <li class="nav-item active">
-            <a class="nav-link" href="{{ url_for('source_list') }}" style="color: rgba(0,0,0,0.8);">Source List<span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{{ url_for('source_list') }}" style="color: rgba(0,0,0,0.8); margin-right: 2em;">Source List<span class="sr-only">(current)</span></a>
           </li>
-        <form class="form-inline my-2 my-lg-0" style="margin-left:2.5em;" action="{{ url_for('try_type') }}" method="POST">
+        <form class="form-inline my-2 my-lg-0" action="{{ url_for('try_type') }}" method="POST">
             <div class="nav-item dropdown keep-open">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: rgba(0,0,0,0.8);">
                   Filter Search
