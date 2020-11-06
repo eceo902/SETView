@@ -10,9 +10,9 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="{{ url_for('home') }}">
-          <span style="color: #5680E9;">S</span><!--
-          --><span style="color: #84CEEB;">E</span><!--
-          --><span style="color: #8860D0;">T</span><!--
+          <span style="color: #1C3BFE;">S</span><!--
+          --><span style="color: #1C7FFE;">E</span><!--
+          --><span style="color: #6FD0FA;">T</span><!--
           --><span>View</span>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,22 +69,22 @@
             <a class="nav-link" href="{{ url_for('source_list') }}" style="color: rgba(0,0,0,0.8);">Source List<span class="sr-only">(current)</span></a>
           </li>
         <form class="form-inline my-2 my-lg-0" style="margin-left:2.5em;" action="{{ url_for('try_type') }}" method="POST">
-            <div class="nav-item dropdown">
+            <div class="nav-item dropdown keep-open">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: rgba(0,0,0,0.8);">
                   Filter Search
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <div class="boxes">
+                  <div class="boxes" style="padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px;">
                     <input type="checkbox" id="1box" name="categories" value="sports" checked>
                     <label for="1box" style="color: rgba(0,0,0,0.8);">Sports</label>
                   </div>
                   <div class="dropdown-divider"></div>
-                  <div class="boxes">
+                  <div class="boxes" style="padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px;">
                     <input type="checkbox" id="2box" name="categories" value="entertainment" checked>
                     <label for="2box" style="color: rgba(0,0,0,0.8);">Entertainment</label>
                   </div>
                   <div class="dropdown-divider"></div>
-                  <div class="boxes">
+                  <div class="boxes" style="padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px;">
                     <input type="checkbox" id="3box" name="categories" value="technology" checked>
                     <label for="3box" style="color: rgba(0,0,0,0.8);">Technology</label>
                   </div>
@@ -96,10 +96,14 @@
       </div>
     </nav>
 
+
     <div class="container-fluid">
         {% block content %}
         {% endblock %}
     </div>
+
+
+
 
 
 

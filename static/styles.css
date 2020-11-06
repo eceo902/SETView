@@ -1,10 +1,10 @@
 .jumbotron{
-    background-color: lightslategrey;
+    background-color: #EEEEEE;
     border-radius: 20px;
 }
 
 body{
-    background-color: #112222;
+    background-color: #222222;
 }
 
 .display-4{
@@ -13,7 +13,7 @@ body{
     font-size: 50px;
     z-index: 1;
     overflow: hidden;
-    color: deepskyblue;
+    color: #007bff;
 }
 
 .display-4:before, .display-4:after {
@@ -23,7 +23,7 @@ body{
     width: 50%;
     height: 1px;
     content: '\a0';
-    background-color: deepskyblue;
+    background-color: #007bff;
 }
 
 .display-4:before {
@@ -37,4 +37,12 @@ body{
     width: 60%;
     height: auto;
     border-radius:20px;
+}
+
+.card-header{
+    background-color: #BABABA;
+}
+
+.card-body{
+    background-color: #F5F5F5;
 }
