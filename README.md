@@ -4,6 +4,7 @@
 ## Setup
 * Install Python3
 * Clone the repository
+* Internet connection needed
 * Install requirements to environment using the requirements.txt file in the repository
 * Open project and run app.py file
 
