@@ -39,57 +39,63 @@
 
     <h1>Technology</h1>
 
-    {% for i in range(technology_preferences|length) %}
-        {% if technology_preferences[i] in session['preferences'] %}
-            <span class="boxes boxes-inline" style="display: inline-block">
-                <input type="checkbox" id="1box-{{i}}" name="list" value="{{technology_preferences[i]}}" checked>
-                <label for="1box-{{i}}">{{technology_preferences[i]}}</label>
-            </span>
-        {% else %}
-            <span class="boxes boxes-inline" style="display: inline-block">
-                <input type="checkbox" id="1box-{{i}}" name="list" value="{{technology_preferences[i]}}">
-                <label for="1box-{{i}}">{{technology_preferences[i]}}</label>
-            </span>
-        {% endif %}
-    {% endfor %}
+    <div style="text-align: center">
+        {% for i in range(technology_preferences|length) %}
+            {% if technology_preferences[i] in session['preferences'] %}
+                <span class="boxes boxes-inline" style="display: inline-block">
+                    <input type="checkbox" id="1box-{{i}}" name="list" value="{{technology_preferences[i]}}" checked>
+                    <label for="1box-{{i}}">{{technology_preferences[i]}}</label>
+                </span>
+            {% else %}
+                <span class="boxes boxes-inline" style="display: inline-block">
+                    <input type="checkbox" id="1box-{{i}}" name="list" value="{{technology_preferences[i]}}">
+                    <label for="1box-{{i}}">{{technology_preferences[i]}}</label>
+                </span>
+            {% endif %}
+        {% endfor %}
+    </div>
 
     <br>
     <br>
 
     <h1>Entertainment</h1>
 
-    {% for i in range(entertainment_preferences|length) %}
-        {% if entertainment_preferences[i] in session['preferences'] %}
-            <span class="boxes boxes-inline" style="display: inline-block">
-                <input type="checkbox" id="2box-{{i}}" name="list" value="{{entertainment_preferences[i]}}" checked>
-                <label for="2box-{{i}}">{{entertainment_preferences[i]}}</label>
-            </span>
-        {% else %}
-            <span class="boxes boxes-inline" style="display: inline-block">
-                <input type="checkbox" id="2box-{{i}}" name="list" value="{{entertainment_preferences[i]}}">
-                <label for="2box-{{i}}">{{entertainment_preferences[i]}}</label>
-            </span>
-        {% endif %}
-    {% endfor %}
+    <div style="text-align: center">
+        {% for i in range(entertainment_preferences|length) %}
+            {% if entertainment_preferences[i] in session['preferences'] %}
+                <span class="boxes boxes-inline" style="display: inline-block">
+                    <input type="checkbox" id="2box-{{i}}" name="list" value="{{entertainment_preferences[i]}}" checked>
+                    <label for="2box-{{i}}">{{entertainment_preferences[i]}}</label>
+                </span>
+            {% else %}
+                <span class="boxes boxes-inline" style="display: inline-block">
+                    <input type="checkbox" id="2box-{{i}}" name="list" value="{{entertainment_preferences[i]}}">
+                    <label for="2box-{{i}}">{{entertainment_preferences[i]}}</label>
+                </span>
+            {% endif %}
+        {% endfor %}
+    </div>
 
     <br>
     <br>
 
     <h1>Sports</h1>
 
-    {% for i in range(sports_preferences|length) %}
-        {% if sports_preferences[i] in session['preferences'] %}
-            <span class="boxes boxes-inline" style="display: inline-block">
-                <input type="checkbox" id="3box-{{i}}" name="list" value="{{sports_preferences[i]}}" checked>
-                <label for="3box-{{i}}">{{sports_preferences[i]}}</label>
-            </span>
-        {% else %}
-            <span class="boxes boxes-inline" style="display: inline-block">
-                <input type="checkbox" id="3box-{{i}}" name="list" value="{{sports_preferences[i]}}">
-                <label for="3box-{{i}}">{{sports_preferences[i]}}</label>
-            </span>
-        {% endif %}
-    {% endfor %}
+    <div style="text-align: center">
+        {% for i in range(sports_preferences|length) %}
+            {% if sports_preferences[i] in session['preferences'] %}
+                <span class="boxes boxes-inline" style="display: inline-block">
+                    <input type="checkbox" id="3box-{{i}}" name="list" value="{{sports_preferences[i]}}" checked>
+                    <label for="3box-{{i}}">{{sports_preferences[i]}}</label>
+                </span>
+            {% else %}
+                <span class="boxes boxes-inline" style="display: inline-block">
+                    <input type="checkbox" id="3box-{{i}}" name="list" value="{{sports_preferences[i]}}">
+                    <label for="3box-{{i}}">{{sports_preferences[i]}}</label>
+                </span>
+            {% endif %}
+        {% endfor %}
+    </div>
 
     <br>
     <br>
@@ -108,36 +114,42 @@
 
     <h1>Technology</h1>
 
-    {% for i in range(technology_preferences|length) %}
-        <span class="boxes boxes-inline" style="display: inline-block">
-            <input type="checkbox" id="1box-{{i}}" name="list" value="{{technology_preferences[i]}}">
-            <label for="1box-{{i}}">{{technology_preferences[i]}}</label>
-        </span>
-    {% endfor %}
+    <div style="text-align: center">
+        {% for i in range(technology_preferences|length) %}
+            <span class="boxes boxes-inline" style="display: inline-block">
+                <input type="checkbox" id="1box-{{i}}" name="list" value="{{technology_preferences[i]}}">
+                <label for="1box-{{i}}">{{technology_preferences[i]}}</label>
+            </span>
+        {% endfor %}
+    </div>
 
     <br>
     <br>
 
     <h1>Entertainment</h1>
 
-    {% for i in range(entertainment_preferences|length) %}
-        <span class="boxes boxes-inline" style="display: inline-block">
-            <input type="checkbox" id="2box-{{i}}" name="list" value="{{entertainment_preferences[i]}}">
-            <label for="2box-{{i}}">{{entertainment_preferences[i]}}</label>
-        </span>
-    {% endfor %}
+    <div style="text-align: center">
+        {% for i in range(entertainment_preferences|length) %}
+            <span class="boxes boxes-inline" style="display: inline-block">
+                <input type="checkbox" id="2box-{{i}}" name="list" value="{{entertainment_preferences[i]}}">
+                <label for="2box-{{i}}">{{entertainment_preferences[i]}}</label>
+            </span>
+        {% endfor %}
+    </div>
 
     <br>
     <br>
 
     <h1>Sports</h1>
 
-    {% for i in range(sports_preferences|length) %}
-        <span class="boxes boxes-inline" style="display: inline-block">
-            <input type="checkbox" id="3box-{{i}}" name="list" value="{{sports_preferences[i]}}">
-            <label for="3box-{{i}}">{{sports_preferences[i]}}</label>
-        </span>
-    {% endfor %}
+    <div style="text-align: center">
+        {% for i in range(sports_preferences|length) %}
+            <span class="boxes boxes-inline" style="display: inline-block">
+                <input type="checkbox" id="3box-{{i}}" name="list" value="{{sports_preferences[i]}}">
+                <label for="3box-{{i}}">{{sports_preferences[i]}}</label>
+            </span>
+        {% endfor %}
+    </div>
 
     <br>
     <br>

@@ -9,21 +9,22 @@ import validators                               # to test if url is valid
 newsapi = NewsApiClient(api_key=my_api_key)
 
 
-app = Flask(__name__)                           # creating the Flask App
-app.secret_key = "secret_key"                   # need to make a secret key to make session work
-app.permanent_session_lifetime = timedelta(days=7)      # the session lasts for a week
+app = Flask(__name__)                                                                           # creating the Flask App
+app.secret_key = "secret_key"                                                                   # need to make a secret key to make session work
+app.permanent_session_lifetime = timedelta(days=7)                                              # the session lasts for a week
 
 
-@app.before_request                             # this will run before any request
+@app.before_request                                                                             # this will run before any request
 def make_session_permanent():
-    session.permanent = True                    # activates the session as being permanent
+    session.permanent = True                                                                    # activates the session as being permanent
 
-@app.before_first_request                       # activates only before the first request
+@app.before_first_request                                                                       # activates only before the first request
 def set_initial_page():
     session["page"] = 1
     session["page_interest"] = 1
+    session["categories"] = None
 
-@app.route("/")                                 # Homepage
+@app.route("/")                                                                                 # Homepage
 def home():
     news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=100, from_param=date.today()-timedelta(days=2), to=date.today())
     articles = news["articles"]
@@ -31,14 +32,14 @@ def home():
     rtn = []
 
     for i in range(9):
-        temp = random.choice(articles)          # stores the random article in a temporary variable
-        while temp["urlToImage"] is None or not validators.url(temp["urlToImage"]):            # if there is not a url or if the url is invalid
+        temp = random.choice(articles)                                                          # stores the random article in a temporary variable
+        while temp["urlToImage"] is None or not validators.url(temp["urlToImage"]):             # if there is not a url or if the url is invalid
             articles.remove(temp)
             temp = random.choice(articles)
-        rtn.append(temp)                        # adds the random article to the return list
-        articles.remove(temp)                   # removes the random article from the list of articles
+        rtn.append(temp)                                                                        # adds the random article to the return list
+        articles.remove(temp)                                                                   # removes the random article from the list of articles
 
-    for article in rtn:                         # limiting the length of the title
+    for article in rtn:                                                                         # limiting the length of the title
         if len(article["title"]) > 90:
             article["title"] = article["title"][0:article["title"].find(" ", 85)] + "..."       # this will add an ellipsis to the first space it finds starting from the 70th character
 
@@ -46,7 +47,7 @@ def home():
 
 
 
-@app.route("/top")                              # trending sports, technology, and entertainment news page
+@app.route("/top")                                                                              # trending sports, technology, and entertainment news page
 def top():
     top_technology = newsapi.get_top_headlines(category="technology", country="us", page_size=34)                       # calling the api for tech news
     top_entertainment = newsapi.get_top_headlines(category="entertainment", country="us", page_size=33)                 # calling the api for entertainment news
@@ -63,33 +64,30 @@ def top():
         return render_template("trending.html", articles=articles)
 
 
-@app.route("/all/<int:page_number>")            # all technology, sports, and entertainment news
-def all_things(page_number=None):
-    all_news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=20, page=page_number)
-    session["page"] = page_number               # saves the page_number into a "page" input in the session
+@app.route("/all/<int:page_number>")                                                            # all technology, sports, and entertainment news
+def all_things(page_number=1):
+    all_news = newsapi.get_everything(q="technology OR entertainment OR sports", qintitle="technology OR entertainment OR sports", language="en", sort_by="relevancy", page_size=20, page=page_number, from_param=date.today()-timedelta(days=7), to=date.today())
+    session["page"] = page_number                                                               # saves the page_number into a "page" input in the session
     if all_news["status"] != "ok":
         flash("There was an error!, Try again")
         return redirect(url_for("home"))
     elif all_news["totalResults"] == 0:
         flash("There are no articles there right now.  Sorry, try again later!")
-        return redirect(url_for("all_things", page_number=session["page"]-1))
-    elif page_number == None:                   # if there is no page number saved
-        articles = all_news["articles"]
-        return render_template("everything.html", articles=articles, current_page=1)
+        return redirect(url_for("all_things", page_number=session["page"]-1))                   # going back to previous page
     else:
         articles = all_news["articles"]
         return render_template("everything.html", articles=articles, current_page=page_number)
 
 
-@app.route("/category/<string:category>")        # News from either technology, entertainment, or sports category
+@app.route("/category/<string:category>")                                                       # News from either technology, entertainment, or sports category
 def cat(category):
     cat_news = newsapi.get_top_headlines(category=category.lower(), country="us", language="en", page_size=50)
     if cat_news["status"] != "ok":
         flash("There was an error!, Try again")
-        return render_template("categories.html")
+        return redirect(url_for("home"))
     elif cat_news["totalResults"] == 0:
         flash("There are no articles right now.  Sorry, try again later!")
-        return render_template("categories.html")
+        return redirect(url_for("home"))
     else:
         articles = cat_news["articles"]
         return render_template("categories.html", articles=articles, type=category)
@@ -103,7 +101,7 @@ def cat(category):
 def set_preferences():
     if request.method == "POST":
         try:
-            session["preferences"] = request.form.getlist("list")           # getting the list of checked values for the checkboxes
+            session["preferences"] = request.form.getlist("list")                               # getting the list of checked values for the checkboxes
             if len(request.form.getlist("list")) > 0:
                 flash("Your interests have been saved!")
             return redirect(url_for("interest", page_number=1))
@@ -115,22 +113,19 @@ def set_preferences():
 
 
 @app.route("/interests/<int:page_number>")
-def interest(page_number=None):
+def interest(page_number=1):
     if "preferences" in session and len(session["preferences"]) > 0:
         preferences = " OR ".join(session["preferences"])
         interest_news = newsapi.get_everything(q=preferences.lower(), qintitle=preferences.lower(), language="en", page_size=20, page=page_number)
         session["page_interest"] = page_number
         if interest_news["status"] != "ok":
-            session.pop("_flashes", None)                                   # removing the previous flashes
+            session.pop("_flashes", None)                                                       # removing the previous flashes
             flash("There was an error!, Try again")
             return redirect(url_for("home"))
         elif interest_news["totalResults"] == 0:
             session.pop("_flashes", None)
             flash("There are no articles there right now.  Sorry, try again later!")
             return redirect(url_for("home"))
-        elif page_number is None:
-            articles = interest_news["articles"]
-            return render_template("interest_page.html", articles=articles, current_page=1)
         else:
             articles = interest_news["articles"]
             return render_template("interest_page.html", articles=articles, current_page=page_number)
@@ -143,10 +138,11 @@ def interest(page_number=None):
 
 
 
-@app.route("/checktype", methods=["POST", "GET"])                                       # checking to see if the input search for type was valid
+@app.route("/checktype", methods=["POST", "GET"])                                               # checking to see if the input search for type was valid
 def try_type():
     if request.method == "POST":
         if request.form["what_topic"] is not None and len(request.form["what_topic"]) > 0:
+            session["categories"] = request.form.getlist("categories")
             return redirect(url_for("topic_searcher", topic=request.form["what_topic"], page_number=1))
         else:
             flash("Invalid search input, try again!")
@@ -155,13 +151,22 @@ def try_type():
         return redirect(url_for("home"))
 
 
-@app.route("/topic/<string:topic>/<int:page_number>")                                                     # route to render the search result
+@app.route("/topic/<string:topic>/<int:page_number>")                              # route to render the search result
 def topic_searcher(topic, page_number=1):
-    try:
-        news_by_topic = newsapi.get_everything(q="(technology OR entertainment OR sports) AND " + topic.lower(), language="en", sort_by="relevancy", page_size=20, page=page_number)
-    except:
-        flash("There was an error with your search.")
-        return redirect(url_for("home"))
+    if session["categories"] is None or len(session["categories"]) == 0:
+        try:
+            news_by_topic = newsapi.get_everything(q="(technology OR entertainment OR sports) AND " + topic.lower(), language="en", sort_by="relevancy", page_size=20, page=page_number)
+        except:
+            flash("here was an error with your search.")
+            return redirect(url_for("home"))
+    else:
+        try:
+            narrow_search = " OR ".join(session["categories"])
+            news_by_topic = newsapi.get_everything(q="(" + narrow_search.lower() + ") AND " + topic.lower(), language="en", sort_by="relevancy", page_size=20, page=page_number)
+        except:
+            flash("There was an error with your search.")
+            return redirect(url_for("home"))
+
     if news_by_topic["status"] != "ok":
         flash("There was an error with your search.")
         return redirect(url_for("home"))
@@ -177,10 +182,10 @@ def topic_searcher(topic, page_number=1):
 
 
 
-@app.route("/checksource", methods=["POST", "GET"])                                     # checking if the input for the search is valid
+@app.route("/checksource", methods=["POST", "GET"])                                             # checking if the input for the search is valid
 def try_source():
     if request.method == "POST":
-        if request.form["what_source"] is not None and len(request.form["what_source"]) > 0:        # if there was actual text that was searched
+        if request.form["what_source"] is not None and len(request.form["what_source"]) > 0:    # if there was actual text that was searched
             return redirect(url_for("source_searcher", source=request.form["what_source"], page_number=1))
         else:
             flash("Invalid search input, try these sources!")
@@ -220,11 +225,15 @@ def source_list():
 
 
 
-@app.route("/eseeyave")                                 # rendering the about page
+@app.route("/eseeyave")                                                                         # rendering the about page
 def creator():
     return render_template("about.html")
+
+@app.route("/test")
+def test():
+    return render_template("test.html")
 
 
 
 if __name__ == "__main__":
-    app.run(debug=True)                                 # changes to code will change app
+    app.run(debug=True)                                                                         # changes to code will change app

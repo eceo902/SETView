@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Trending{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}                           <!--If there are messages-->
+            <br>
+            {% for msg in messages %}
+                <div class="jumbotron jumbotron-fluid">
+                  <div class="container">
+                    <h1 class="display-4" style="text-align:center;">There is an error:</h1>
+                    <p style="text-align:center;">{{msg}}</p>
+                  </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+<br>
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4" style="text-align:center; font-size:10em;">Trending News</h1>
+    <p style="text-align:center; font-size:2.5em;">Here are the top 100 Sports, Entertainment, and Technology articles today</p>
+  </div>
+</div>
+
+
+{% for article in articles %}
+<div class="card text-center">
+  <div class="card-header" style="font-size:2em;">
+    {{article['source']['name']}}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{article['title']}}</h5>
+    <a href="{{article['url']}}" class="btn btn-primary">Go to Article</a>
+    <br>
+    {% if article['urlToImage'] == None %}                       <!--Jinja does not support len() function-->
+    {% else %}
+        <br>
+        <br>
+        <img class="img-render" src="{{article['urlToImage']}}" alt="">
+        <br>
+        <br>
+    {% endif %}
+    {% if article['description'] == None %}
+    {% else %}
+        <p class="card-text" style="font-size:1.5em;">{{article['description']}}</p>
+    {% endif %}
+  </div>
+  <div class="card-footer text-muted">
+      {{article['publishedAt'][0:article['publishedAt'].find("T")]}}
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+{% endfor %}
+
+{% endblock %}

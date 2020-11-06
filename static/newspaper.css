@@ -13,10 +13,6 @@
   --brand: hsl(0, 40%, 80%);
 }
 
-/*html {*/
-/*  font-size: var(--unit);*/
-/*}*/
-
 body {
   --fence: repeating-linear-gradient(90deg, transparent 0 4%, var(--fence--two) 4% 8%, var(--fence--one) 8% 96%, var(--fence--two) 92% 96%, transparent 96% 100%) 0 70vh / 5em 30vh repeat-x;
   --fence-brace--one: linear-gradient(var(--fence--three), var(--fence--three)) 0 75vh / 100vw 2em no-repeat;
@@ -30,6 +26,7 @@ body {
   background-color: var(--sky);
   animation: slide 4s infinite linear, time 60s infinite linear;
 }
+
 
 body:before {
   --star--one: radial-gradient(var(--sky) 50%, transparent 50%) 10vw 10vh / 1em 1em;

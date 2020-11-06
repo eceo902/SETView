@@ -9,7 +9,29 @@ body{
 
 .display-4{
     text-align: center;
+    position: relative;
+    font-size: 50px;
+    z-index: 1;
+    overflow: hidden;
+    color: deepskyblue;
 }
+
+.display-4:before, .display-4:after {
+    position: absolute;
+    top: 51%;
+    overflow: hidden;
+    width: 50%;
+    height: 1px;
+    content: '\a0';
+    background-color: deepskyblue;
+}
+
+.display-4:before {
+    margin-left: -50%;
+    text-align: right;
+}
+
+
 
 .img-render{
     width: 60%;
