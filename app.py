@@ -141,12 +141,22 @@ def interest(page_number=1):
 @app.route("/checktype", methods=["POST", "GET"])                                               # checking to see if the input search for type was valid
 def try_type():
     if request.method == "POST":
-        if request.form["what_topic"] is not None and len(request.form["what_topic"]) > 0:
-            session["categories"] = request.form.getlist("categories")
-            return redirect(url_for("topic_searcher", topic=request.form["what_topic"], page_number=1))
-        else:
-            flash("Invalid search input, try again!")
-            return redirect(url_for("home"))
+        try:
+            request.form[""]
+            topic = request.form["what_topic"]
+            if topic is not None and len(topic) > 0:
+                session["categories"] = request.form.getlist("categories")
+                return redirect(url_for("topic_searcher", topic=topic, page_number=1))
+            else:
+                flash("Invalid search input, try again!")
+                return redirect(url_for("home"))
+        except:
+            source = request.form["what_source"]
+            if source is not None and len(source) > 0:                                          # if there was actual text that was searched
+                return redirect(url_for("source_searcher", source=source, page_number=1))
+            else:
+                flash("Invalid search input, try these sources!")
+                return redirect(url_for("source_list"))
     else:
         return redirect(url_for("home"))
 
@@ -176,8 +186,6 @@ def topic_searcher(topic, page_number=1):
     else:
         articles = news_by_topic["articles"]
         return render_template("topic.html", articles=articles, topic=topic, current_page=page_number)
-
-
 
 
 
