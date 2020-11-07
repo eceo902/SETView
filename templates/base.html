@@ -8,7 +8,7 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-xl navbar-light bg-light">
+    <nav class="navbar navbar-expand-custom navbar-light bg-light">
       <a class="navbar-brand" href="{{ url_for('home') }}">
           <span style="color: #1C3BFE;">S</span><!--
           --><span style="color: #1C7FFE;">E</span><!--
@@ -50,11 +50,11 @@
               Categories
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{ url_for('cat', category='Technology') }}">Technology</a>
+              <a class="dropdown-item" href="{{ url_for('cat', category='Technology') }}" style="color: #1C3BFE;">Technology</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{{ url_for('cat', category='Entertainment') }}">Entertainment</a>
+              <a class="dropdown-item" href="{{ url_for('cat', category='Entertainment') }}" style="color: #1C7FFE;">Entertainment</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{{ url_for('cat', category='Sports') }}">Sports</a>
+              <a class="dropdown-item" href="{{ url_for('cat', category='Sports') }}" style="color: #6FD0FA;">Sports</a>
             </div>
           </li>
           <li class="nav-item">
@@ -67,25 +67,25 @@
                   Filter Search
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <div class="boxes" style="padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px;">
-                    <input type="checkbox" id="1box" name="categories" value="sports" checked>
-                    <label for="1box" style="color: rgba(0,0,0,0.8);">Sports</label>
+                  <div class="boxes" style="padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; color: #1C3BFE;">
+                    <input type="checkbox" id="1box" name="categories" value="sports" style="color: #1C3BFE;" checked>
+                    <label for="1box" style="color: #1C3BFE;">Sports</label>
                   </div>
                   <div class="dropdown-divider"></div>
                   <div class="boxes" style="padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px;">
                     <input type="checkbox" id="2box" name="categories" value="entertainment" checked>
-                    <label for="2box" style="color: rgba(0,0,0,0.8);">Entertainment</label>
+                    <label for="2box" style="color: #1C7FFE;">Entertainment</label>
                   </div>
                   <div class="dropdown-divider"></div>
                   <div class="boxes" style="padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px;">
                     <input type="checkbox" id="3box" name="categories" value="technology" checked>
-                    <label for="3box" style="color: rgba(0,0,0,0.8);">Technology</label>
+                    <label for="3box" style="color: #6FD0FA;">Technology</label>
                   </div>
                 </div>
             </div>
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="what">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction="{{ url_for('try_type') }}" formmethod="POST" style="color: #007bff; border-color: #007bff; margin-right: 0.35em;">By Topic</button>
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction="{{ url_for('try_source') }}" formmethod="POST" style="color: #007bff; border-color: #007bff;">By Source</button>
+          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" formaction="{{ url_for('try_type') }}" formmethod="POST" style="color: #007bff; border-color: #007bff; margin-right: 0.35em;">By Topic</button>
+          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" formaction="{{ url_for('try_source') }}" formmethod="POST" style="color: #007bff; border-color: #007bff;">By Source</button>
         </form>
         <li class="nav-item active">
             <a class="nav-link" href="{{ url_for('source_list') }}" style="color: rgba(0,0,0,0.8);">Source List<span class="sr-only">(current)</span></a>
