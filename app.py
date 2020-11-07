@@ -104,7 +104,7 @@ def set_preferences():
             session["preferences"] = request.form.getlist("list")                               # getting the list of checked values for the checkboxes
             if len(request.form.getlist("list")) > 0:
                 flash("Your interests have been saved!")
-            return redirect(url_for("interest", page_number=1))
+            return redirect(url_for("interest", page_number=1))                                 # if preferences were selected, then go to interest function
         except:
             flash("Please select some preferences")
             return redirect(url_for("set_preferences"))
@@ -114,7 +114,7 @@ def set_preferences():
 
 @app.route("/interests/<int:page_number>")
 def interest(page_number=1):
-    if "preferences" in session and len(session["preferences"]) > 0:
+    if "preferences" in session and len(session["preferences"]) > 0:                            # if there are saved preferences in the session
         preferences = " OR ".join(session["preferences"])
         interest_news = newsapi.get_everything(q=preferences.lower(), qintitle=preferences.lower(), language="en", page_size=20, page=page_number)
         session["page_interest"] = page_number
@@ -142,7 +142,7 @@ def interest(page_number=1):
 def try_type():
     if request.method == "POST":
         topic = request.form["what"]
-        if topic is not None and len(topic) > 0:
+        if topic is not None and len(topic) > 0:                                                # if something was entered in the search
             session["categories"] = request.form.getlist("categories")
             return redirect(url_for("topic_searcher", topic=topic, page_number=1))
         else:
@@ -199,7 +199,7 @@ def try_source():
 
 @app.route("/source/<string:source>/<int:page_number>")
 def source_searcher(source, page_number=1):
-    if session["categories"] is None or len(session["categories"]) == 0:
+    if session["categories"] is None or len(session["categories"]) == 0:                        # if there are "categories" saved in the session
         try:
             news_by_source = newsapi.get_everything(q="technology OR entertainment OR sports", language="en", sort_by="relevancy", sources=source.lower(), page_size=20, page=page_number)
         except:
