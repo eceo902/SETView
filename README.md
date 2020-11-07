@@ -26,9 +26,13 @@ Note - Internet connection needed
 Run app.py file
 In your browser, type in
 >localhost:5000
-
 This will display the website in your browser
+
+## Credits
+* [NewsAPI](https://newsapi.org) for the API
+* Capital One for the challenge
+* Bootstrap, mdbootstrap, Skelly, JHEY, and Silke V for frontend styles
 
 ## Additional Info
 * Deployed version of app at: https://newssetview.herokuapp.com
-* Imperfect on mobile but still fairly functional
+* Functional on mobile
