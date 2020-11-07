@@ -22,7 +22,7 @@ def make_session_permanent():
 def set_initial_page():
     session["page"] = 1
     session["page_interest"] = 1
-    session["categories"] = None                                                                # sets session["categories"] to None
+    session["categories"] = []                                                                  # sets session["categories"] to empty list
 
 @app.route("/")                                                                                 # Homepage
 def home():
@@ -225,6 +225,7 @@ def source_searcher(source, page_number=1):
 
 @app.route("/sourcelist")
 def source_list():
+    session["categories"] = []                                                                                  # setting to an empty list
     technology_sources = newsapi.get_sources(category="technology", language="en", country="us")                # gets the news sources that deal with technology
     entertainment_sources = newsapi.get_sources(category="entertainment", language="en", country="us")          # gets the news sources that deal with entertainment
     sports_sources = newsapi.get_sources(category="sports", language="en", country="us")                        # gets the news sources that deal with sports
