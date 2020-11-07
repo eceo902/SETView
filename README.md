@@ -24,7 +24,9 @@ Note - Internet connection needed
 
 ## Start
 Run app.py file
+
 In your browser, type in
+
 >localhost:5000
 
 This will display the website in your browser
