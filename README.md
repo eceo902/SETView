@@ -2,7 +2,7 @@
 
 
 ## Setup
-* Note - Internet connection needed
+Note - Internet connection needed
 * Install Python3
 * Clone the repository
 * Start a Python interpreter in the project
