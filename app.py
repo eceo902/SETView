@@ -199,7 +199,7 @@ def try_source():
 
 @app.route("/source/<string:source>/<int:page_number>")
 def source_searcher(source, page_number=1):
-    if session["categories"] is None or len(session["categories"]) == 0:                        # if there are "categories" saved in the session
+    if "categories" not in session or len(session["categories"]) == 0:                        # if there are "categories" saved in the session
         try:
             news_by_source = newsapi.get_everything(q="technology OR entertainment OR sports", language="en", sort_by="relevancy", sources=source.lower(), page_size=20, page=page_number)
         except:
