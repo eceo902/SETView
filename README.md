@@ -3,6 +3,12 @@
 ## Description
 Web application that implements NewsAPI to interact with and display technology, sports, and entertainment news.  Uses the newsapi-python package created by @mattlisiv to make API calls.
 
+## Code
+Uses Flask Python framework, HTML, CSS, and JavaScript
+
+## API Reference
+News info is retrieved from [NewsAPI](https://newsapi.org)
+
 ## Key Features
 * Trending News Page and All News Page
 * Preferences Page
@@ -23,5 +29,11 @@ In your browser, type in
 
 This will display the website in your browser
 
+## Credits
+* [NewsAPI](https://newsapi.org) for the API
+* Capital One for the challenge
+* Bootstrap, mdbootstrap, Skelly, JHEY, and Silke V for frontend styles
+
 ## Additional Info
-Deployed version of app at: https://newssetview.herokuapp.com
+* Deployed version of app at: https://newssetview.herokuapp.com
+* Functional on mobile
