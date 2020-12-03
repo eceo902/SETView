@@ -6,6 +6,7 @@ from datetime import timedelta, date
 import random                                   # to randomize a list of articles for the carousel
 import validators                               # to test if url is valid
 
+
 newsapi = NewsApiClient(api_key=my_api_key)
 
 
