@@ -237,11 +237,9 @@ def source_list():
 
 
 
-
 @app.route("/eseeyave")                                                                         # rendering the about page
 def creator():
     return render_template("about.html")
-
 
 
 
